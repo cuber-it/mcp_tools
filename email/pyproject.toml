@@ -1,0 +1,34 @@
+[project]
+name = "mcp-email-tools"
+version = "1.0.0"
+description = "Email tools for MCP — IMAP inbox, search, send via SMTP"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Ulrich Berkmueller", email = "ulrich@cuber-it.de" },
+]
+keywords = ["mcp", "email", "tools"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "mcp-server-framework>=1.3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/cuber-it/mcp_tools"
+Repository = "https://github.com/cuber-it/mcp_tools"
+
+[project.scripts]
+mcp-email-tools = "mcp_email_tools:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_email_tools"]
