@@ -1,0 +1,40 @@
+# MCP Mattermost Tools — Story (existierend, v1.0.0)
+# Status: implementiert, Code in mattermost/src/mcp_mattermost_tools/mattermost/
+name: mattermost
+description: "Mattermost chat tools for MCP — send messages, channels, posts, search"
+version: "1.0.0"
+
+dependencies:
+  - "httpx>=0.26.0"
+
+client:
+  class_name: MattermostClient
+  config_keys:
+    - url
+    - token
+
+tools:
+  - name: mm_send_message
+    description: "Send a message to a channel"
+    params:
+      - { name: channel_id, type: str, description: "Channel ID" }
+      - { name: message, type: str, description: "Message text" }
+
+  - name: mm_get_channels
+    description: "List channels the user belongs to"
+
+  - name: mm_get_posts
+    description: "Get recent posts from a channel"
+    params:
+      - { name: channel_id, type: str, description: "Channel ID" }
+      - { name: limit, type: int, default: 10, description: "Number of posts" }
+
+  - name: mm_search_posts
+    description: "Search posts across channels"
+    params:
+      - { name: query, type: str, description: "Search query" }
+
+  - name: mm_get_user
+    description: "Get user info"
+    params:
+      - { name: username, type: str, default: "", description: "Username (empty = self)" }

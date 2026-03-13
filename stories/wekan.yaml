@@ -1,0 +1,127 @@
+# MCP Wekan Tools — Story (existierend, v1.0.0)
+# Status: implementiert, Code in wekan/src/mcp_wekan_tools/wekan/
+name: wekan
+description: "Wekan Kanban board tools for MCP — boards, lists, cards, checklists, labels"
+version: "1.0.0"
+
+dependencies:
+  - "httpx>=0.26.0"
+
+client:
+  class_name: WekanClient
+  config_keys:
+    - url
+    - username
+    - password
+    - default_board
+
+tools:
+  # Boards & Structure (4)
+  - name: wekan_list_boards
+    description: "List all accessible boards"
+  - name: wekan_list_lists
+    description: "List all lists in a board"
+    params:
+      - { name: board_id, type: str, default: "", description: "Board ID (default from config)" }
+  - name: wekan_list_swimlanes
+    description: "List swimlanes in a board"
+    params:
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+  - name: wekan_board_summary
+    description: "Get board summary with card counts per list"
+    params:
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+
+  # Cards (6)
+  - name: wekan_list_cards
+    description: "List cards in a list"
+    params:
+      - { name: list_id, type: str, description: "List ID" }
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+  - name: wekan_get_card
+    description: "Get card details"
+    params:
+      - { name: card_id, type: str, description: "Card ID" }
+      - { name: list_id, type: str, description: "List ID" }
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+  - name: wekan_create_card
+    description: "Create a new card"
+    params:
+      - { name: title, type: str, description: "Card title" }
+      - { name: list_id, type: str, description: "Target list ID" }
+      - { name: description, type: str, default: "", description: "Card description" }
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+  - name: wekan_move_card
+    description: "Move a card to another list"
+    params:
+      - { name: card_id, type: str, description: "Card ID" }
+      - { name: from_list, type: str, description: "Source list ID" }
+      - { name: to_list, type: str, description: "Target list ID" }
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+  - name: wekan_update_card
+    description: "Update card fields"
+    params:
+      - { name: card_id, type: str, description: "Card ID" }
+      - { name: list_id, type: str, description: "List ID" }
+      - { name: title, type: str, default: "", description: "New title" }
+      - { name: description, type: str, default: "", description: "New description" }
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+  - name: wekan_delete_card
+    description: "Delete a card"
+    params:
+      - { name: card_id, type: str, description: "Card ID" }
+      - { name: list_id, type: str, description: "List ID" }
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+
+  # Custom Fields (2)
+  - name: wekan_list_custom_fields
+    description: "List custom fields of a board"
+    params:
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+  - name: wekan_set_card_custom_field
+    description: "Set a custom field value on a card"
+    params:
+      - { name: card_id, type: str, description: "Card ID" }
+      - { name: field_id, type: str, description: "Custom field ID" }
+      - { name: value, type: str, description: "Field value" }
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+
+  # Labels (2)
+  - name: wekan_list_labels
+    description: "List labels of a board"
+    params:
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+  - name: wekan_set_card_labels
+    description: "Set labels on a card"
+    params:
+      - { name: card_id, type: str, description: "Card ID" }
+      - { name: label_ids, type: str, description: "Comma-separated label IDs" }
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+
+  # Checklists (4)
+  - name: wekan_list_checklists
+    description: "List checklists of a card"
+    params:
+      - { name: card_id, type: str, description: "Card ID" }
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+  - name: wekan_create_checklist
+    description: "Create a checklist on a card"
+    params:
+      - { name: card_id, type: str, description: "Card ID" }
+      - { name: title, type: str, description: "Checklist title" }
+      - { name: items, type: str, default: "", description: "Comma-separated items" }
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+  - name: wekan_set_checklist_item
+    description: "Toggle a checklist item"
+    params:
+      - { name: card_id, type: str, description: "Card ID" }
+      - { name: checklist_id, type: str, description: "Checklist ID" }
+      - { name: item_id, type: str, description: "Item ID" }
+      - { name: is_finished, type: bool, description: "Checked state" }
+      - { name: board_id, type: str, default: "", description: "Board ID" }
+  - name: wekan_delete_checklist
+    description: "Delete a checklist"
+    params:
+      - { name: card_id, type: str, description: "Card ID" }
+      - { name: checklist_id, type: str, description: "Checklist ID" }
+      - { name: board_id, type: str, default: "", description: "Board ID" }
