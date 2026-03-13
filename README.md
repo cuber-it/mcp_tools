@@ -9,6 +9,7 @@ Production-ready MCP tool plugins — each usable standalone or via the [mcp-ser
 | [shell](shell/) | `mcp-shell-tools` | 33 | Filesystem, editor, search, shell, git, systemd, HTTP, packages |
 | [wekan](wekan/) | `mcp-wekan-tools` | 18+ | Wekan Kanban REST API — boards, lists, cards, checklists, labels |
 | [mattermost](mattermost/) | `mcp-mattermost-tools` | 5 | Mattermost REST API — messages, channels, search |
+| [docker](docker/) | `mcp-docker-tools` | 15 | Container management tools for MCP — containers, images, volumes, compose |
 
 ## Installation
 
