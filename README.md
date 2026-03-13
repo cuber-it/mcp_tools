@@ -10,6 +10,20 @@ Production-ready MCP tool plugins — each usable standalone or via the [mcp-ser
 | [wekan](wekan/) | `mcp-wekan-tools` | 18+ | Wekan Kanban REST API — boards, lists, cards, checklists, labels |
 | [mattermost](mattermost/) | `mcp-mattermost-tools` | 5 | Mattermost REST API — messages, channels, search |
 | [docker](docker/) | `mcp-docker-tools` | 15 | Container management tools for MCP — containers, images, volumes, compose |
+| [arxiv](arxiv/) | `mcp-arxiv-tools` | 6 | ArXiv paper search and retrieval tools for MCP |
+| [browser](browser/) | `mcp-browser-tools` | 12 | Browser automation tools for MCP — navigate, extract, screenshot, interact |
+| [database](database/) | `mcp-database-tools` | 8 | Database tools for MCP — query, schema, export for SQLite and PostgreSQL |
+| [email](email/) | `mcp-email-tools` | 9 | Email tools for MCP — IMAP inbox, search, send via SMTP |
+| [homeassistant](homeassistant/) | `mcp-homeassistant-tools` | 10 | Home Assistant tools for MCP — entities, services, automations, history |
+| [mqtt](mqtt/) | `mcp-mqtt-tools` | 6 | MQTT messaging tools for MCP — publish, subscribe, topics |
+| [obsidian](obsidian/) | `mcp-obsidian-tools` | 11 | Obsidian vault tools for MCP — read, write, search, links, tags, frontmatter |
+| [paperless](paperless/) | `mcp-paperless-tools` | 12 | Paperless-ngx document management tools for MCP |
+| [prometheus](prometheus/) | `mcp-prometheus-tools` | 8 | Prometheus monitoring tools for MCP — query metrics, alerts, targets |
+| [rss](rss/) | `mcp-rss-tools` | 8 | RSS/Atom feed reader tools for MCP |
+| [scraper](scraper/) | `mcp-scraper-tools` | 8 | Web scraping tools for MCP — fetch pages, extract content, parse metadata |
+| [systemd](systemd/) | `mcp-systemd-tools` | 10 | Systemd service management tools for MCP — services, journal, timers |
+| [traefik](traefik/) | `mcp-traefik-tools` | 9 | Traefik reverse proxy tools for MCP — routers, services, middlewares, certs |
+| [wikipedia](wikipedia/) | `mcp-wikipedia-tools` | 6 | Wikipedia tools for MCP — search, articles, summaries, multilingual |
 
 ## Installation
 
