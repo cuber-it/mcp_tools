@@ -9,21 +9,69 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from pathlib import Path
-from textwrap import dedent, indent
+from textwrap import dedent
 
 import yaml
 
 
+# --- Validation ---
+
 def load_story(path: Path) -> dict:
+    """Load and validate a story YAML file."""
     with open(path) as f:
         story = yaml.safe_load(f)
-    assert story.get("name"), "Story braucht ein 'name' Feld"
-    assert story.get("description"), "Story braucht ein 'description' Feld"
-    assert story.get("tools"), "Story braucht mindestens ein Tool"
+
+    errors = []
+    if not story or not isinstance(story, dict):
+        print("Error: Story file is empty or not a YAML dict")
+        sys.exit(1)
+    if not story.get("name"):
+        errors.append("'name' is required")
+    elif not re.match(r"^[a-z][a-z0-9_]*$", story["name"]):
+        errors.append(f"'name' must be lowercase alphanumeric with underscores, got: {story['name']}")
+    if not story.get("description"):
+        errors.append("'description' is required")
+    if not story.get("tools"):
+        errors.append("at least one tool is required")
+    else:
+        tool_names = set()
+        for i, tool in enumerate(story["tools"]):
+            if not tool.get("name"):
+                errors.append(f"tool[{i}] has no 'name'")
+            elif tool["name"] in tool_names:
+                errors.append(f"duplicate tool name: {tool['name']}")
+            else:
+                tool_names.add(tool["name"])
+            if not tool.get("description"):
+                errors.append(f"tool '{tool.get('name', i)}' has no 'description'")
+            for j, p in enumerate(tool.get("params", [])):
+                if not p.get("name"):
+                    errors.append(f"tool '{tool.get('name', i)}' param[{j}] has no 'name'")
+                if not p.get("type"):
+                    errors.append(f"tool '{tool.get('name', i)}' param '{p.get('name', j)}' has no 'type'")
+
+    if errors:
+        print(f"Story validation failed ({path}):")
+        for e in errors:
+            print(f"  - {e}")
+        sys.exit(1)
+
     return story
 
+
+def check_target(name: str, root: Path, force: bool = False) -> None:
+    """Check if target directory already exists."""
+    target = root / name
+    if target.exists() and not force:
+        print(f"Error: {target}/ already exists.")
+        print(f"  Use --force to overwrite, or remove the directory first.")
+        sys.exit(1)
+
+
+# --- Helpers ---
 
 def pypi_name(story: dict) -> str:
     return story.get("pypi_name", f"mcp-{story['name']}-tools")
@@ -35,6 +83,25 @@ def module_name(story: dict) -> str:
 
 def class_name_from(name: str) -> str:
     return "".join(w.capitalize() for w in name.split("_"))
+
+
+def _param_signature(params: list[dict]) -> str:
+    """Build function signature from params."""
+    parts = []
+    required = [p for p in params if "default" not in p]
+    optional = [p for p in params if "default" in p]
+    for p in required + optional:
+        typ = p.get("type", "str")
+        if "default" in p:
+            default = p["default"]
+            if isinstance(default, str):
+                default = f'"{default}"'
+            elif isinstance(default, bool):
+                default = str(default)
+            parts.append(f"{p['name']}: {typ} = {default}")
+        else:
+            parts.append(f"{p['name']}: {typ}")
+    return ", ".join(parts)
 
 
 # --- Generators ---
@@ -108,33 +175,6 @@ def gen_init(story: dict) -> str:
     ''')
 
 
-def _param_signature(params: list[dict]) -> str:
-    """Build function signature from params."""
-    parts = []
-    # Required params first, then optional (with defaults)
-    required = [p for p in params if "default" not in p]
-    optional = [p for p in params if "default" in p]
-    for p in required + optional:
-        typ = p.get("type", "str")
-        if "default" in p:
-            default = p["default"]
-            if isinstance(default, str):
-                default = f'"{default}"'
-            elif isinstance(default, bool):
-                default = str(default)
-            parts.append(f"{p['name']}: {typ} = {default}")
-        else:
-            parts.append(f"{p['name']}: {typ}")
-    return ", ".join(parts)
-
-
-def _param_docstring(params: list[dict]) -> str:
-    lines = []
-    for p in params:
-        lines.append(f"        {p['name']}: {p.get('description', '')}")
-    return "\n".join(lines)
-
-
 def gen_register(story: dict) -> str:
     name = story["name"]
     has_client = "client" in story
@@ -176,7 +216,6 @@ def gen_register(story: dict) -> str:
         lines.append(f"    @mcp.tool()")
         lines.append(f"    def {tool_name}({sig}) -> str:")
         lines.append(f'        """{desc}"""')
-        # Build call to tools function
         args = ", ".join(p["name"] for p in params)
         if has_client:
             lines.append(f"        return tools.{tool_name}(client, {args})" if args else f"        return tools.{tool_name}(client)")
@@ -299,6 +338,95 @@ def gen_readme(story: dict) -> str:
     """)
 
 
+def gen_test(story: dict) -> str:
+    name = story["name"]
+    mod = module_name(story)
+    has_client = "client" in story
+
+    lines = []
+    lines.append(f'"""Tests for {name} tools."""')
+    lines.append(f"")
+    lines.append(f"import pytest")
+    lines.append(f"")
+    lines.append(f"from {mod}.{name} import register")
+    if has_client:
+        client_cfg = story.get("client", {})
+        client_cls = client_cfg.get("class_name", class_name_from(name) + "Client")
+        lines.append(f"from {mod}.{name}.client import {client_cls}")
+    lines.append(f"")
+    lines.append(f"")
+    lines.append(f"class TestImport:")
+    lines.append(f"    def test_register_exists(self):")
+    lines.append(f"        assert callable(register)")
+    lines.append(f"")
+    if has_client:
+        lines.append(f"    def test_client_class_exists(self):")
+        lines.append(f"        assert {client_cls} is not None")
+        lines.append(f"")
+    lines.append(f"")
+    lines.append(f"class TestTools:")
+    for tool in story["tools"]:
+        tool_name = tool["name"]
+        lines.append(f"    def test_{tool_name}_exists(self):")
+        lines.append(f"        from {mod}.{name} import tools")
+        lines.append(f"        assert hasattr(tools, \"{tool_name}\")")
+        lines.append(f"        assert callable(tools.{tool_name})")
+        lines.append(f"")
+    lines.append(f"")
+    lines.append(f"# TODO: add functional tests")
+    lines.append(f"")
+
+    return "\n".join(lines)
+
+
+def gen_test_init() -> str:
+    return ""
+
+
+# --- README update ---
+
+def update_monorepo_readme(story: dict, root: Path, dry_run: bool = False) -> bool:
+    """Add the new package to the monorepo README.md table."""
+    readme_path = root / "README.md"
+    if not readme_path.exists():
+        return False
+
+    name = story["name"]
+    pname = pypi_name(story)
+    tool_count = len(story["tools"])
+    desc = story["description"]
+    new_row = f"| [{name}]({name}/) | `{pname}` | {tool_count} | {desc} |"
+
+    content = readme_path.read_text()
+
+    # Check if already listed
+    if f"| [{name}]" in content or f"| `{pname}`" in content:
+        print(f"  [SKIP] README.md ('{name}' already listed)")
+        return False
+
+    # Find the table end (last row before a blank line after the header table)
+    table_pattern = re.compile(
+        r"(\| Package \| PyPI \| Tools \| Description \|\n\|[-| ]+\|\n(?:\|.*\|\n)*)"
+    )
+    match = table_pattern.search(content)
+    if not match:
+        print(f"  [SKIP] README.md (package table not found)")
+        return False
+
+    if dry_run:
+        print(f"  [DRY] README.md (add row for '{name}')")
+        return True
+
+    # Insert new row at end of table
+    table_end = match.end()
+    updated = content[:table_end] + new_row + "\n" + content[table_end:]
+    readme_path.write_text(updated)
+    print(f"  [OK] README.md (added '{name}' to package table)")
+    return True
+
+
+# --- Main generator ---
+
 def generate(story: dict, root: Path, dry_run: bool = False) -> list[str]:
     name = story["name"]
     mod = module_name(story)
@@ -310,6 +438,8 @@ def generate(story: dict, root: Path, dry_run: bool = False) -> list[str]:
         f"{name}/src/{mod}/__init__.py": gen_init(story),
         f"{name}/src/{mod}/{name}/__init__.py": gen_register(story),
         f"{name}/src/{mod}/{name}/tools.py": gen_tools(story),
+        f"tests/test_{name}/__init__.py": gen_test_init(),
+        f"tests/test_{name}/test_{name}.py": gen_test(story),
     }
 
     if has_client:
@@ -322,21 +452,24 @@ def generate(story: dict, root: Path, dry_run: bool = False) -> list[str]:
             print(f"  [DRY] {rel_path}")
             created.append(rel_path)
             continue
-        if full_path.exists():
-            print(f"  [SKIP] {rel_path} (exists)")
-            continue
         full_path.parent.mkdir(parents=True, exist_ok=True)
         full_path.write_text(content)
         print(f"  [OK] {rel_path}")
         created.append(rel_path)
 
+    update_monorepo_readme(story, root, dry_run=dry_run)
+
     return created
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate MCP tool package from story")
+    parser = argparse.ArgumentParser(
+        description="Generate MCP tool package from story YAML",
+        epilog="Example: python scripts/new-tool.py stories/docker.yaml",
+    )
     parser.add_argument("story", type=Path, help="Path to story YAML file")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be created")
+    parser.add_argument("--force", action="store_true", help="Overwrite existing package directory")
     parser.add_argument("--root", type=Path, default=None, help="Monorepo root (default: auto-detect)")
     args = parser.parse_args()
 
@@ -348,7 +481,11 @@ def main():
     story = load_story(args.story)
     name = story["name"]
 
-    print(f"Generating: {pypi_name(story)} v{story.get('version', '1.0.0')}")
+    if not args.dry_run:
+        check_target(name, root, force=args.force)
+
+    tool_count = len(story["tools"])
+    print(f"Generating: {pypi_name(story)} v{story.get('version', '1.0.0')} ({tool_count} tools)")
     print(f"Module:     {module_name(story)}")
     print(f"Target:     {root / name}/")
     print()
@@ -356,12 +493,16 @@ def main():
     created = generate(story, root, dry_run=args.dry_run)
 
     print()
-    print(f"{'Would create' if args.dry_run else 'Created'} {len(created)} files.")
+    action = "Would create" if args.dry_run else "Created"
+    print(f"{action} {len(created)} files.")
     if not args.dry_run:
         print(f"\nNext steps:")
         print(f"  1. Implement tools in {name}/src/{module_name(story)}/{name}/tools.py")
-        print(f"  2. pip install -e {name}/")
-        print(f"  3. {pypi_name(story)}  # test it")
+        if "client" in story:
+            print(f"  2. Implement client in {name}/src/{module_name(story)}/{name}/client.py")
+        print(f"  3. pip install -e {name}/")
+        print(f"  4. {pypi_name(story)}  # test it")
+        print(f"  5. pytest tests/test_{name}/  # run tests")
 
 
 if __name__ == "__main__":
