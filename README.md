@@ -13,6 +13,7 @@ Implemented, tested, ready to use.
 | [shell](shell/) | `mcp-shell-tools` | 36 | Filesystem, editor, search, shell, git, systemd, HTTP, packages |
 | [wekan](wekan/) | `mcp-wekan-tools` | 18 | Wekan Kanban REST API — boards, lists, cards, checklists, labels |
 | [mattermost](mattermost/) | `mcp-mattermost-tools` | 5 | Mattermost REST API — messages, channels, search |
+| [wikipedia](wikipedia/) | `mcp-wikipedia-tools` | 6 | Wikipedia REST + MediaWiki API — search, articles, summaries, multilingual |
 
 ### Planned
 
@@ -28,7 +29,6 @@ Scaffolded from [story files](stories/), ready for implementation.
 | [obsidian](obsidian/) | `mcp-obsidian-tools` | 11 | Vault read, write, search, links, tags, frontmatter |
 | [scraper](scraper/) | `mcp-scraper-tools` | 8 | Fetch pages, extract content, parse metadata |
 | [arxiv](arxiv/) | `mcp-arxiv-tools` | 6 | ArXiv paper search and retrieval |
-| [wikipedia](wikipedia/) | `mcp-wikipedia-tools` | 6 | Search, articles, summaries, multilingual |
 | [rss](rss/) | `mcp-rss-tools` | 8 | RSS/Atom feed reader |
 | [systemd](systemd/) | `mcp-systemd-tools` | 10 | Service management, journal, timers |
 | [traefik](traefik/) | `mcp-traefik-tools` | 9 | Routers, services, middlewares, certs |
