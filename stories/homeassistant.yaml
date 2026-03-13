@@ -1,0 +1,100 @@
+# MCP Home Assistant Tools — Story
+name: homeassistant
+description: "Home Assistant tools for MCP — entities, services, automations, history"
+version: "1.0.0"
+
+dependencies:
+  - "httpx>=0.26.0"
+
+client:
+  class_name: HomeAssistantClient
+  config_keys:
+    - url
+    - token
+
+tools:
+  - name: entity_list
+    description: "List all entities"
+    params:
+      - name: domain
+        type: str
+        default: ""
+        description: "Filter by domain (light, switch, sensor, ...)"
+
+  - name: entity_state
+    description: "Get current state of an entity"
+    params:
+      - name: entity_id
+        type: str
+        description: "Entity ID (e.g. light.living_room)"
+
+  - name: entity_set
+    description: "Set state of an entity"
+    params:
+      - name: entity_id
+        type: str
+        description: "Entity ID"
+      - name: state
+        type: str
+        description: "New state value"
+
+  - name: service_call
+    description: "Call a Home Assistant service"
+    params:
+      - name: domain
+        type: str
+        description: "Service domain (e.g. light, switch, automation)"
+      - name: service
+        type: str
+        description: "Service name (e.g. turn_on, turn_off, toggle)"
+      - name: entity_id
+        type: str
+        default: ""
+        description: "Target entity ID"
+
+  - name: automation_list
+    description: "List all automations"
+
+  - name: automation_trigger
+    description: "Trigger an automation"
+    params:
+      - name: entity_id
+        type: str
+        description: "Automation entity ID"
+
+  - name: automation_enable
+    description: "Enable an automation"
+    params:
+      - name: entity_id
+        type: str
+        description: "Automation entity ID"
+
+  - name: automation_disable
+    description: "Disable an automation"
+    params:
+      - name: entity_id
+        type: str
+        description: "Automation entity ID"
+
+  - name: history
+    description: "Get state history for an entity"
+    params:
+      - name: entity_id
+        type: str
+        description: "Entity ID"
+      - name: hours
+        type: int
+        default: 24
+        description: "Hours of history"
+
+  - name: logbook
+    description: "Get logbook entries"
+    params:
+      - name: hours
+        type: int
+        default: 24
+        description: "Hours of entries"
+      - name: entity_id
+        type: str
+        default: ""
+        description: "Filter by entity ID"

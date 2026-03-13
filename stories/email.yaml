@@ -1,0 +1,124 @@
+# MCP Email Tools — Story
+name: email
+description: "Email tools for MCP — IMAP inbox, search, send via SMTP"
+version: "1.0.0"
+
+# No extra dependencies — stdlib imaplib/smtplib
+
+client:
+  class_name: EmailClient
+  config_keys:
+    - imap_host
+    - smtp_host
+    - username
+    - password
+
+tools:
+  - name: inbox
+    description: "List recent messages from inbox"
+    params:
+      - name: limit
+        type: int
+        default: 20
+        description: "Number of messages to return"
+      - name: folder
+        type: str
+        default: "INBOX"
+        description: "Mail folder"
+
+  - name: search
+    description: "Search emails by criteria"
+    params:
+      - name: query
+        type: str
+        description: "Search query (from, subject, body text)"
+      - name: folder
+        type: str
+        default: "INBOX"
+        description: "Mail folder"
+      - name: limit
+        type: int
+        default: 20
+        description: "Max results"
+
+  - name: read
+    description: "Read a specific email by ID"
+    params:
+      - name: message_id
+        type: str
+        description: "Message ID"
+      - name: folder
+        type: str
+        default: "INBOX"
+        description: "Mail folder"
+
+  - name: folders
+    description: "List available mail folders"
+
+  - name: move
+    description: "Move a message to another folder"
+    params:
+      - name: message_id
+        type: str
+        description: "Message ID"
+      - name: target_folder
+        type: str
+        description: "Target folder"
+      - name: source_folder
+        type: str
+        default: "INBOX"
+        description: "Source folder"
+
+  - name: mark
+    description: "Mark a message as read/unread/flagged"
+    params:
+      - name: message_id
+        type: str
+        description: "Message ID"
+      - name: flag
+        type: str
+        description: "Flag: read, unread, flagged, unflagged"
+      - name: folder
+        type: str
+        default: "INBOX"
+        description: "Mail folder"
+
+  - name: send
+    description: "Send a plain text email"
+    params:
+      - name: to
+        type: str
+        description: "Recipient email address"
+      - name: subject
+        type: str
+        description: "Email subject"
+      - name: body
+        type: str
+        description: "Email body (plain text)"
+
+  - name: send_html
+    description: "Send an HTML email"
+    params:
+      - name: to
+        type: str
+        description: "Recipient email address"
+      - name: subject
+        type: str
+        description: "Email subject"
+      - name: html
+        type: str
+        description: "Email body (HTML)"
+
+  - name: reply
+    description: "Reply to a message"
+    params:
+      - name: message_id
+        type: str
+        description: "Original message ID"
+      - name: body
+        type: str
+        description: "Reply body"
+      - name: folder
+        type: str
+        default: "INBOX"
+        description: "Folder of original message"

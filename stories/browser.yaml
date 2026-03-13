@@ -1,0 +1,105 @@
+# MCP Browser Tools — Story
+name: browser
+description: "Browser automation tools for MCP — navigate, extract, screenshot, interact"
+version: "1.0.0"
+
+dependencies:
+  - "playwright>=1.40.0"
+
+tools:
+  - name: navigate
+    description: "Navigate to a URL and wait for page load"
+    params:
+      - name: url
+        type: str
+        description: "URL to navigate to"
+      - name: wait_until
+        type: str
+        default: "domcontentloaded"
+        description: "Wait condition: domcontentloaded, load, networkidle"
+
+  - name: screenshot
+    description: "Take a screenshot of the current page or element"
+    params:
+      - name: selector
+        type: str
+        default: ""
+        description: "CSS selector for element (empty = full page)"
+      - name: path
+        type: str
+        default: ""
+        description: "Save path (empty = return base64)"
+
+  - name: click
+    description: "Click an element on the page"
+    params:
+      - name: selector
+        type: str
+        description: "CSS selector for element to click"
+
+  - name: fill
+    description: "Fill a form field with text"
+    params:
+      - name: selector
+        type: str
+        description: "CSS selector for input element"
+      - name: value
+        type: str
+        description: "Text to fill in"
+
+  - name: select
+    description: "Select an option from a dropdown"
+    params:
+      - name: selector
+        type: str
+        description: "CSS selector for select element"
+      - name: value
+        type: str
+        description: "Option value to select"
+
+  - name: extract_text
+    description: "Extract text content from the page or element"
+    params:
+      - name: selector
+        type: str
+        default: "body"
+        description: "CSS selector (default: entire body)"
+
+  - name: extract_links
+    description: "Extract all links from the page"
+
+  - name: extract_table
+    description: "Extract table data as structured text"
+    params:
+      - name: selector
+        type: str
+        default: "table"
+        description: "CSS selector for table element"
+
+  - name: pdf
+    description: "Render current page as PDF"
+    params:
+      - name: path
+        type: str
+        description: "Output file path"
+
+  - name: evaluate
+    description: "Execute JavaScript in the page context"
+    params:
+      - name: expression
+        type: str
+        description: "JavaScript expression to evaluate"
+
+  - name: wait_for
+    description: "Wait for an element or condition"
+    params:
+      - name: selector
+        type: str
+        description: "CSS selector to wait for"
+      - name: timeout
+        type: int
+        default: 30000
+        description: "Timeout in milliseconds"
+
+  - name: cookies
+    description: "Get all cookies for the current page"

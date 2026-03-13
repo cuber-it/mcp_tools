@@ -1,0 +1,66 @@
+# MCP Prometheus Tools — Story
+name: prometheus
+description: "Prometheus monitoring tools for MCP — query metrics, alerts, targets"
+version: "1.0.0"
+
+dependencies:
+  - "httpx>=0.26.0"
+
+client:
+  class_name: PrometheusClient
+  config_keys:
+    - url
+
+tools:
+  - name: query
+    description: "Execute an instant PromQL query"
+    params:
+      - name: promql
+        type: str
+        description: "PromQL expression"
+
+  - name: query_range
+    description: "Execute a range PromQL query"
+    params:
+      - name: promql
+        type: str
+        description: "PromQL expression"
+      - name: start
+        type: str
+        default: "1h"
+        description: "Start time (duration like 1h, or ISO timestamp)"
+      - name: step
+        type: str
+        default: "15s"
+        description: "Query resolution step"
+
+  - name: series
+    description: "List time series matching a label set"
+    params:
+      - name: match
+        type: str
+        description: "Series selector (e.g. {job='node'})"
+
+  - name: labels
+    description: "List all label names or values"
+    params:
+      - name: label
+        type: str
+        default: ""
+        description: "Specific label name to get values for (empty = list all names)"
+
+  - name: alert_list
+    description: "List active alerts"
+
+  - name: alert_rules
+    description: "List alerting rules"
+
+  - name: target_list
+    description: "List scrape targets and their health"
+
+  - name: target_health
+    description: "Check health of a specific target"
+    params:
+      - name: job
+        type: str
+        description: "Job name"

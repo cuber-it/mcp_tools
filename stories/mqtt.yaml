@@ -1,0 +1,63 @@
+# MCP MQTT Tools — Story
+name: mqtt
+description: "MQTT messaging tools for MCP — publish, subscribe, topics"
+version: "1.0.0"
+
+dependencies:
+  - "paho-mqtt>=2.0.0"
+
+client:
+  class_name: MqttClient
+  config_keys:
+    - host
+    - port
+
+tools:
+  - name: publish
+    description: "Publish a message to a topic"
+    params:
+      - name: topic
+        type: str
+        description: "MQTT topic"
+      - name: payload
+        type: str
+        description: "Message payload"
+      - name: retain
+        type: bool
+        default: false
+        description: "Retain message on broker"
+
+  - name: subscribe
+    description: "Subscribe to a topic and return recent messages"
+    params:
+      - name: topic
+        type: str
+        description: "MQTT topic (supports wildcards: +, #)"
+      - name: timeout
+        type: int
+        default: 5
+        description: "Listen for N seconds"
+      - name: limit
+        type: int
+        default: 10
+        description: "Max messages to return"
+
+  - name: topics
+    description: "List known topics (via $SYS or recent activity)"
+
+  - name: retained_get
+    description: "Get retained message for a topic"
+    params:
+      - name: topic
+        type: str
+        description: "MQTT topic"
+
+  - name: retained_clear
+    description: "Clear retained message for a topic"
+    params:
+      - name: topic
+        type: str
+        description: "MQTT topic"
+
+  - name: broker_info
+    description: "Get broker information via $SYS topics"

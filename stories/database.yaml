@@ -1,0 +1,77 @@
+# MCP Database Tools — Story
+name: database
+description: "Database tools for MCP — query, schema, export for SQLite and PostgreSQL"
+version: "1.0.0"
+
+dependencies:
+  - "aiosqlite>=0.19.0"
+  - "asyncpg>=0.29.0"
+
+client:
+  class_name: DatabaseClient
+  config_keys:
+    - uri
+
+tools:
+  - name: query
+    description: "Execute a read-only SQL query and return results"
+    params:
+      - name: sql
+        type: str
+        description: "SQL query (SELECT only by default)"
+      - name: limit
+        type: int
+        default: 100
+        description: "Max rows to return"
+
+  - name: execute
+    description: "Execute a write SQL statement (INSERT/UPDATE/DELETE, requires write_enabled config)"
+    params:
+      - name: sql
+        type: str
+        description: "SQL statement"
+
+  - name: schema
+    description: "Show database schema — tables, columns, types, indices"
+    params:
+      - name: table
+        type: str
+        default: ""
+        description: "Specific table (empty = all tables)"
+
+  - name: tables
+    description: "List all tables in the database"
+
+  - name: describe
+    description: "Describe a table — columns, types, constraints"
+    params:
+      - name: table
+        type: str
+        description: "Table name"
+
+  - name: export_csv
+    description: "Export query results as CSV"
+    params:
+      - name: sql
+        type: str
+        description: "SQL query"
+      - name: path
+        type: str
+        description: "Output file path"
+
+  - name: export_json
+    description: "Export query results as JSON"
+    params:
+      - name: sql
+        type: str
+        description: "SQL query"
+      - name: path
+        type: str
+        description: "Output file path"
+
+  - name: explain
+    description: "Show query execution plan"
+    params:
+      - name: sql
+        type: str
+        description: "SQL query to analyze"

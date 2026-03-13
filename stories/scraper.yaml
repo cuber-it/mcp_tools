@@ -1,0 +1,87 @@
+# MCP Web Scraper Tools — Story
+name: scraper
+description: "Web scraping tools for MCP — fetch pages, extract content, parse metadata"
+version: "1.0.0"
+
+dependencies:
+  - "httpx>=0.26.0"
+  - "beautifulsoup4>=4.12.0"
+
+client:
+  class_name: ScraperClient
+
+tools:
+  - name: fetch
+    description: "Fetch a URL and return content as clean Markdown"
+    params:
+      - name: url
+        type: str
+        description: "URL to fetch"
+
+  - name: extract
+    description: "Extract content using CSS selector"
+    params:
+      - name: url
+        type: str
+        description: "URL to fetch"
+      - name: selector
+        type: str
+        description: "CSS selector"
+      - name: attribute
+        type: str
+        default: ""
+        description: "Extract attribute value instead of text (e.g. href, src)"
+
+  - name: links
+    description: "Extract all links from a page"
+    params:
+      - name: url
+        type: str
+        description: "URL to fetch"
+      - name: filter
+        type: str
+        default: ""
+        description: "Filter links by pattern (regex)"
+
+  - name: metadata
+    description: "Extract page metadata — title, description, OG tags"
+    params:
+      - name: url
+        type: str
+        description: "URL to fetch"
+
+  - name: sitemap
+    description: "Parse sitemap.xml and list URLs"
+    params:
+      - name: url
+        type: str
+        description: "Sitemap URL (or base URL, /sitemap.xml appended)"
+      - name: limit
+        type: int
+        default: 100
+        description: "Max URLs to return"
+
+  - name: table
+    description: "Extract HTML table as structured text"
+    params:
+      - name: url
+        type: str
+        description: "URL to fetch"
+      - name: selector
+        type: str
+        default: "table"
+        description: "CSS selector for table"
+
+  - name: headers
+    description: "Show HTTP response headers for a URL"
+    params:
+      - name: url
+        type: str
+        description: "URL to check"
+
+  - name: status
+    description: "Check HTTP status code of a URL"
+    params:
+      - name: url
+        type: str
+        description: "URL to check"

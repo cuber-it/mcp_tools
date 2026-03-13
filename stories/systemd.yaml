@@ -1,0 +1,119 @@
+# MCP Systemd Tools — Story
+name: systemd
+description: "Systemd service management tools for MCP — services, journal, timers"
+version: "1.0.0"
+
+# No extra dependencies — subprocess calls to systemctl/journalctl
+
+tools:
+  - name: service_list
+    description: "List systemd services"
+    params:
+      - name: state
+        type: str
+        default: ""
+        description: "Filter by state: running, failed, inactive (empty = all)"
+      - name: user
+        type: bool
+        default: false
+        description: "Show user services instead of system"
+
+  - name: service_status
+    description: "Show status of a service"
+    params:
+      - name: service
+        type: str
+        description: "Service name (e.g. nginx, sshd)"
+      - name: user
+        type: bool
+        default: false
+        description: "User service"
+
+  - name: service_start
+    description: "Start a service"
+    params:
+      - name: service
+        type: str
+        description: "Service name"
+      - name: user
+        type: bool
+        default: false
+        description: "User service"
+
+  - name: service_stop
+    description: "Stop a service"
+    params:
+      - name: service
+        type: str
+        description: "Service name"
+      - name: user
+        type: bool
+        default: false
+        description: "User service"
+
+  - name: service_restart
+    description: "Restart a service"
+    params:
+      - name: service
+        type: str
+        description: "Service name"
+      - name: user
+        type: bool
+        default: false
+        description: "User service"
+
+  - name: service_enable
+    description: "Enable a service to start on boot"
+    params:
+      - name: service
+        type: str
+        description: "Service name"
+      - name: user
+        type: bool
+        default: false
+        description: "User service"
+
+  - name: service_disable
+    description: "Disable a service from starting on boot"
+    params:
+      - name: service
+        type: str
+        description: "Service name"
+      - name: user
+        type: bool
+        default: false
+        description: "User service"
+
+  - name: journal
+    description: "Read journal logs for a service"
+    params:
+      - name: service
+        type: str
+        description: "Service name"
+      - name: lines
+        type: int
+        default: 50
+        description: "Number of lines"
+      - name: since
+        type: str
+        default: ""
+        description: "Since when (e.g. '1h ago', '2024-01-01')"
+
+  - name: timer_list
+    description: "List systemd timers"
+    params:
+      - name: user
+        type: bool
+        default: false
+        description: "User timers"
+
+  - name: timer_info
+    description: "Show details of a timer"
+    params:
+      - name: timer
+        type: str
+        description: "Timer name"
+      - name: user
+        type: bool
+        default: false
+        description: "User timer"

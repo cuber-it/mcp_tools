@@ -1,0 +1,53 @@
+# MCP Traefik Tools — Story
+name: traefik
+description: "Traefik reverse proxy tools for MCP — routers, services, middlewares, certs"
+version: "1.0.0"
+
+dependencies:
+  - "httpx>=0.26.0"
+
+client:
+  class_name: TraefikClient
+  config_keys:
+    - url
+
+tools:
+  - name: router_list
+    description: "List all Traefik routers"
+
+  - name: router_inspect
+    description: "Show details of a router"
+    params:
+      - name: name
+        type: str
+        description: "Router name"
+
+  - name: service_list
+    description: "List all Traefik services"
+
+  - name: service_health
+    description: "Show health status of a service"
+    params:
+      - name: name
+        type: str
+        description: "Service name"
+
+  - name: middleware_list
+    description: "List all middlewares"
+
+  - name: entrypoint_list
+    description: "List all entrypoints"
+
+  - name: cert_list
+    description: "List TLS certificates"
+
+  - name: cert_expiry
+    description: "Check certificate expiry dates"
+    params:
+      - name: domain
+        type: str
+        default: ""
+        description: "Filter by domain (empty = all)"
+
+  - name: overview
+    description: "Traefik dashboard overview — routers, services, middlewares counts"

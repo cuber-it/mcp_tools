@@ -1,0 +1,101 @@
+# MCP Obsidian Tools — Story
+name: obsidian
+description: "Obsidian vault tools for MCP — read, write, search, links, tags, frontmatter"
+version: "1.0.0"
+
+# No extra dependencies — pure filesystem access
+
+tools:
+  - name: note_read
+    description: "Read a note from the vault"
+    params:
+      - name: path
+        type: str
+        description: "Relative path within vault (e.g. folder/note.md)"
+
+  - name: note_write
+    description: "Write or overwrite a note"
+    params:
+      - name: path
+        type: str
+        description: "Relative path within vault"
+      - name: content
+        type: str
+        description: "Markdown content"
+
+  - name: note_append
+    description: "Append text to an existing note"
+    params:
+      - name: path
+        type: str
+        description: "Relative path within vault"
+      - name: content
+        type: str
+        description: "Text to append"
+
+  - name: note_list
+    description: "List notes in a folder"
+    params:
+      - name: folder
+        type: str
+        default: ""
+        description: "Folder path (empty = vault root)"
+      - name: recursive
+        type: bool
+        default: false
+        description: "Include subfolders"
+
+  - name: search
+    description: "Full-text search across vault"
+    params:
+      - name: query
+        type: str
+        description: "Search query (regex supported)"
+      - name: limit
+        type: int
+        default: 20
+        description: "Max results"
+
+  - name: search_by_tag
+    description: "Find notes with a specific tag"
+    params:
+      - name: tag
+        type: str
+        description: "Tag name (without #)"
+
+  - name: backlinks
+    description: "Find all notes linking to a given note"
+    params:
+      - name: path
+        type: str
+        description: "Note path to find backlinks for"
+
+  - name: outgoing_links
+    description: "List all links from a note"
+    params:
+      - name: path
+        type: str
+        description: "Note path"
+
+  - name: tag_list
+    description: "List all tags used in the vault"
+
+  - name: frontmatter_read
+    description: "Read YAML frontmatter of a note"
+    params:
+      - name: path
+        type: str
+        description: "Note path"
+
+  - name: frontmatter_update
+    description: "Update frontmatter fields of a note"
+    params:
+      - name: path
+        type: str
+        description: "Note path"
+      - name: key
+        type: str
+        description: "Frontmatter key"
+      - name: value
+        type: str
+        description: "New value"

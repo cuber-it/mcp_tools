@@ -1,0 +1,78 @@
+# MCP Wikipedia Tools — Story
+name: wikipedia
+description: "Wikipedia tools for MCP — search, articles, summaries, multilingual"
+version: "1.0.0"
+
+dependencies:
+  - "httpx>=0.26.0"
+
+client:
+  class_name: WikipediaClient
+
+tools:
+  - name: search
+    description: "Search Wikipedia articles"
+    params:
+      - name: query
+        type: str
+        description: "Search query"
+      - name: lang
+        type: str
+        default: "en"
+        description: "Language code (en, de, fr, ...)"
+      - name: limit
+        type: int
+        default: 10
+        description: "Max results"
+
+  - name: article
+    description: "Get full article content as Markdown"
+    params:
+      - name: title
+        type: str
+        description: "Article title"
+      - name: lang
+        type: str
+        default: "en"
+        description: "Language code"
+
+  - name: summary
+    description: "Get article summary (first section)"
+    params:
+      - name: title
+        type: str
+        description: "Article title"
+      - name: lang
+        type: str
+        default: "en"
+        description: "Language code"
+
+  - name: links
+    description: "List all links from an article"
+    params:
+      - name: title
+        type: str
+        description: "Article title"
+      - name: lang
+        type: str
+        default: "en"
+        description: "Language code"
+
+  - name: categories
+    description: "List categories of an article"
+    params:
+      - name: title
+        type: str
+        description: "Article title"
+      - name: lang
+        type: str
+        default: "en"
+        description: "Language code"
+
+  - name: random
+    description: "Get a random article summary"
+    params:
+      - name: lang
+        type: str
+        default: "en"
+        description: "Language code"

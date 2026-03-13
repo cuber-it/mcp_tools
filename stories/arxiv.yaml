@@ -1,0 +1,68 @@
+# MCP ArXiv Tools — Story
+name: arxiv
+description: "ArXiv paper search and retrieval tools for MCP"
+version: "1.0.0"
+
+dependencies:
+  - "httpx>=0.26.0"
+
+client:
+  class_name: ArxivClient
+
+tools:
+  - name: search
+    description: "Search arXiv papers by query"
+    params:
+      - name: query
+        type: str
+        description: "Search query (supports arXiv query syntax)"
+      - name: limit
+        type: int
+        default: 10
+        description: "Max results"
+      - name: sort_by
+        type: str
+        default: "relevance"
+        description: "Sort: relevance, lastUpdatedDate, submittedDate"
+
+  - name: abstract
+    description: "Get paper abstract by arXiv ID"
+    params:
+      - name: arxiv_id
+        type: str
+        description: "ArXiv paper ID (e.g. 2301.07041)"
+
+  - name: paper
+    description: "Get full paper metadata — title, authors, abstract, categories, dates"
+    params:
+      - name: arxiv_id
+        type: str
+        description: "ArXiv paper ID"
+
+  - name: download
+    description: "Download paper PDF to local path"
+    params:
+      - name: arxiv_id
+        type: str
+        description: "ArXiv paper ID"
+      - name: path
+        type: str
+        description: "Target file path"
+
+  - name: authors
+    description: "List authors of a paper"
+    params:
+      - name: arxiv_id
+        type: str
+        description: "ArXiv paper ID"
+
+  - name: recent
+    description: "List recent papers in a category"
+    params:
+      - name: category
+        type: str
+        description: "ArXiv category (e.g. cs.AI, cs.CL, stat.ML)"
+      - name: limit
+        type: int
+        default: 10
+        description: "Max results"

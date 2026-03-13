@@ -1,0 +1,74 @@
+# MCP RSS Tools — Story
+name: rss
+description: "RSS/Atom feed reader tools for MCP"
+version: "1.0.0"
+
+dependencies:
+  - "feedparser>=6.0.0"
+  - "httpx>=0.26.0"
+
+tools:
+  - name: feed_read
+    description: "Read a feed and return recent entries"
+    params:
+      - name: url
+        type: str
+        description: "Feed URL (RSS or Atom)"
+      - name: limit
+        type: int
+        default: 10
+        description: "Max entries to return"
+
+  - name: feed_add
+    description: "Add a feed to the tracked list"
+    params:
+      - name: url
+        type: str
+        description: "Feed URL"
+      - name: name
+        type: str
+        default: ""
+        description: "Display name (auto-detected if empty)"
+
+  - name: feed_list
+    description: "List all tracked feeds"
+
+  - name: feed_remove
+    description: "Remove a feed from the tracked list"
+    params:
+      - name: url
+        type: str
+        description: "Feed URL to remove"
+
+  - name: entries
+    description: "List entries across all tracked feeds"
+    params:
+      - name: limit
+        type: int
+        default: 20
+        description: "Max entries"
+      - name: since_hours
+        type: int
+        default: 24
+        description: "Only entries from last N hours"
+
+  - name: entry_read
+    description: "Read full content of a feed entry"
+    params:
+      - name: url
+        type: str
+        description: "Entry URL"
+
+  - name: opml_import
+    description: "Import feeds from OPML file"
+    params:
+      - name: path
+        type: str
+        description: "Path to OPML file"
+
+  - name: opml_export
+    description: "Export tracked feeds as OPML"
+    params:
+      - name: path
+        type: str
+        description: "Output file path"

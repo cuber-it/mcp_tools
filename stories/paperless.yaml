@@ -1,0 +1,118 @@
+# MCP Paperless Tools — Story
+name: paperless
+description: "Paperless-ngx document management tools for MCP"
+version: "1.0.0"
+
+dependencies:
+  - "httpx>=0.26.0"
+
+client:
+  class_name: PaperlessClient
+  config_keys:
+    - url
+    - token
+
+tools:
+  - name: document_list
+    description: "List documents with optional filters"
+    params:
+      - name: limit
+        type: int
+        default: 25
+        description: "Max documents to return"
+      - name: tag
+        type: str
+        default: ""
+        description: "Filter by tag name"
+      - name: correspondent
+        type: str
+        default: ""
+        description: "Filter by correspondent"
+
+  - name: document_search
+    description: "Full-text search across all documents"
+    params:
+      - name: query
+        type: str
+        description: "Search query"
+      - name: limit
+        type: int
+        default: 25
+        description: "Max results"
+
+  - name: document_get
+    description: "Get document details and content"
+    params:
+      - name: document_id
+        type: int
+        description: "Document ID"
+
+  - name: document_upload
+    description: "Upload a new document"
+    params:
+      - name: path
+        type: str
+        description: "Path to file to upload"
+      - name: title
+        type: str
+        default: ""
+        description: "Document title (auto-detected if empty)"
+
+  - name: document_download
+    description: "Download a document file"
+    params:
+      - name: document_id
+        type: int
+        description: "Document ID"
+      - name: path
+        type: str
+        description: "Target file path"
+
+  - name: tag_list
+    description: "List all tags"
+
+  - name: tag_assign
+    description: "Assign a tag to a document"
+    params:
+      - name: document_id
+        type: int
+        description: "Document ID"
+      - name: tag
+        type: str
+        description: "Tag name"
+
+  - name: tag_remove
+    description: "Remove a tag from a document"
+    params:
+      - name: document_id
+        type: int
+        description: "Document ID"
+      - name: tag
+        type: str
+        description: "Tag name"
+
+  - name: correspondent_list
+    description: "List all correspondents"
+
+  - name: correspondent_assign
+    description: "Assign a correspondent to a document"
+    params:
+      - name: document_id
+        type: int
+        description: "Document ID"
+      - name: correspondent
+        type: str
+        description: "Correspondent name"
+
+  - name: doctype_list
+    description: "List all document types"
+
+  - name: doctype_assign
+    description: "Assign a document type to a document"
+    params:
+      - name: document_id
+        type: int
+        description: "Document ID"
+      - name: doctype
+        type: str
+        description: "Document type name"
