@@ -52,6 +52,29 @@ autoload:
   - mcp_mattermost_tools.mattermost
 ```
 
+## Creating new tools
+
+New packages are generated from YAML story files in `stories/`:
+
+```bash
+python scripts/new-tool.py stories/docker.yaml          # generate package
+python scripts/new-tool.py stories/docker.yaml --dry-run # preview only
+```
+
+### Claude Code Skill
+
+For Claude Code users there's a ready-made skill in `claude-tools/new-tool.md`:
+
+```bash
+# Symlink into your .claude/commands/
+ln -s "$(pwd)/claude-tools/new-tool.md" .claude/commands/new-tool.md
+
+# Then use it as:
+# /new-tool stories/docker.yaml
+```
+
+The skill reads the story, shows a plan, waits for confirmation, generates the scaffold, installs it, and runs the tests.
+
 ## Architecture
 
 Each package follows the same pattern:
