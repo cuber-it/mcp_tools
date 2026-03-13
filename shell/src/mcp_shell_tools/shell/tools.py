@@ -2,9 +2,12 @@
 
 Imports all tool functions from submodules so that
 ``from . import tools`` in __init__.py keeps working.
+
+v4.0: Git, HTTP, systemd, pip removed — see mcp-git-tools, mcp-http-tools,
+mcp-python-tools, mcp-systemd-tools.
 """
 
-from ._history import history, record as _record
+from ._history import record as _record
 from ._state import (
     check_command as _check_command,
     check_command as _check_command_allowed,
@@ -30,18 +33,13 @@ from .filesystem import (
     tail,
     tree,
 )
-from .git import git, git_diff, git_log, git_status
-from .http import http_request, json_query
 from .search import glob_search, grep
-from .services import pip_install, pip_list, systemctl
 from .shell import cd, cwd, env, set_env, shell_exec, which
 from .system import disk_usage, port_check, ps, sysinfo
 
 __all__ = [
     # state
     "set_working_dir", "set_security_boundaries", "resolve_path",
-    # history
-    "history", "_record",
     # filesystem
     "file_read", "file_write", "file_append", "file_list",
     "file_delete", "file_move", "file_copy", "file_info",
@@ -54,10 +52,4 @@ __all__ = [
     "shell_exec", "cd", "cwd", "which", "env", "set_env",
     # system
     "ps", "sysinfo", "port_check", "disk_usage",
-    # http
-    "http_request", "json_query",
-    # git
-    "git", "git_status", "git_log", "git_diff",
-    # services
-    "systemctl", "pip_list", "pip_install",
 ]
