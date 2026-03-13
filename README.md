@@ -21,6 +21,9 @@ Scaffolded from [story files](stories/), ready for implementation.
 
 | Package | PyPI | Tools | Description |
 |---------|------|-------|-------------|
+| [git](git/) | `mcp-git-tools` | 17 | Status, log, diff, commit, branch, stash, remote, blame |
+| [http](http/) | `mcp-http-tools` | 7 | Requests, JSON, downloads, headers, status checks |
+| [python](python/) | `mcp-python-tools` | 8 | Venvs, pip, packages, interpreter info |
 | [jupyter](jupyter/) | `mcp-jupyter-tools` | 14 | Notebooks, kernels, JupyterHub users and servers |
 | [finance](finance/) | `mcp-finance-tools` | 11 | Market data via yfinance — quotes, history, fundamentals, news |
 | [docker](docker/) | `mcp-docker-tools` | 15 | Containers, images, volumes, compose |
