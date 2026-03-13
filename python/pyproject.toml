@@ -1,0 +1,34 @@
+[project]
+name = "mcp-python-tools"
+version = "1.0.0"
+description = "Python environment tools for MCP — venvs, pip, packages, interpreter info"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Ulrich Berkmueller", email = "ulrich@cuber-it.de" },
+]
+keywords = ["mcp", "python", "tools"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "mcp-server-framework>=1.3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/cuber-it/mcp_tools"
+Repository = "https://github.com/cuber-it/mcp_tools"
+
+[project.scripts]
+mcp-python-tools = "mcp_python_tools:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_python_tools"]

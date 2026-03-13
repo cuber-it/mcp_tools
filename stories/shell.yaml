@@ -1,66 +1,67 @@
-# MCP Shell Tools — Story (existierend, v3.0.0)
-# Status: implementiert, Code in shell/src/mcp_shell_tools/shell/
+# MCP Shell Tools — Story v4.0.0
+# Fokus: Filesystem, Editor, Search, Shell, System
+# Rausgeloest: Git → git, HTTP → http, pip → python, systemctl → systemd
 name: shell
-description: "33 workstation tools for MCP — filesystem, editor, search, shell, git, systemd, HTTP, packages"
-version: "3.0.0"
+description: "Workstation tools for MCP — filesystem, editor, search, shell, system"
+version: "4.0.0"
 
-# pypi_name: mcp-shell-tools (existiert seit v2, wir übernehmen mit v3)
+# pypi_name: mcp-shell-tools
 # Keine extra dependencies — reine stdlib
 
 tools:
   # Filesystem (11)
-  - name: shell_file_read
+  - name: file_read
     description: "Read a file with optional line range"
     params:
       - { name: path, type: str, description: "File path" }
       - { name: start_line, type: int, default: 0, description: "Start line" }
       - { name: end_line, type: int, default: 0, description: "End line" }
-  - name: shell_file_write
+  - name: file_write
     description: "Write content to a file"
     params:
       - { name: path, type: str, description: "File path" }
       - { name: content, type: str, description: "Content to write" }
-  - name: shell_file_append
+  - name: file_append
     description: "Append content to a file"
     params:
       - { name: path, type: str, description: "File path" }
       - { name: content, type: str, description: "Content to append" }
-  - name: shell_file_list
+  - name: file_list
     description: "List directory contents"
     params:
       - { name: path, type: str, default: ".", description: "Directory path" }
       - { name: recursive, type: bool, default: false, description: "Recurse" }
       - { name: show_hidden, type: bool, default: false, description: "Show hidden" }
-  - name: shell_file_delete
+  - name: file_delete
     description: "Delete a file or directory"
     params:
       - { name: path, type: str, description: "Path to delete" }
       - { name: recursive, type: bool, default: false, description: "Recursive" }
-  - name: shell_file_move
+  - name: file_move
     description: "Move/rename a file"
     params:
       - { name: source, type: str, description: "Source path" }
       - { name: destination, type: str, description: "Destination path" }
-  - name: shell_file_copy
+  - name: file_copy
     description: "Copy a file"
     params:
       - { name: source, type: str, description: "Source path" }
       - { name: destination, type: str, description: "Destination path" }
-  - name: shell_file_info
+  - name: file_info
     description: "Get file metadata"
     params:
       - { name: path, type: str, description: "File path" }
-  - name: shell_head
+  - name: head
     description: "Read first N lines of a file"
     params:
       - { name: path, type: str, description: "File path" }
       - { name: lines, type: int, default: 20, description: "Number of lines" }
-  - name: shell_tail
+  - name: tail
     description: "Read last N lines of a file"
     params:
       - { name: path, type: str, description: "File path" }
       - { name: lines, type: int, default: 20, description: "Number of lines" }
-  - name: shell_tree
+  - name: tree
     description: "Show directory tree"
     params:
       - { name: path, type: str, default: ".", description: "Root path" }
@@ -68,20 +69,20 @@ tools:
       - { name: show_hidden, type: bool, default: false, description: "Show hidden" }
 
   # Editor (3)
-  - name: shell_str_replace
+  - name: str_replace
     description: "Replace string in a file"
     params:
       - { name: path, type: str, description: "File path" }
       - { name: old_string, type: str, description: "String to find" }
       - { name: new_string, type: str, description: "Replacement" }
-  - name: shell_diff_preview
+  - name: diff_preview
     description: "Preview a diff before applying"
     params:
       - { name: path, type: str, description: "File path" }
       - { name: old_string, type: str, description: "String to find" }
       - { name: new_string, type: str, default: "", description: "Replacement" }
       - { name: context_lines, type: int, default: 3, description: "Context lines" }
-  - name: shell_find_replace
+  - name: find_replace
     description: "Find and replace across files"
     params:
       - { name: pattern, type: str, description: "Search pattern" }
@@ -91,115 +92,59 @@ tools:
       - { name: dry_run, type: bool, default: true, description: "Preview only" }
 
   # Search (2)
-  - name: shell_grep
+  - name: grep
     description: "Search file contents with regex"
     params:
       - { name: pattern, type: str, description: "Search pattern" }
       - { name: path, type: str, default: ".", description: "Search path" }
       - { name: file_pattern, type: str, default: "*", description: "File glob" }
       - { name: max_results, type: int, default: 50, description: "Max matches" }
-  - name: shell_glob
+  - name: glob_search
     description: "Find files by glob pattern"
     params:
       - { name: pattern, type: str, description: "Glob pattern" }
       - { name: path, type: str, default: ".", description: "Root path" }
 
   # Shell (6)
-  - name: shell_exec
+  - name: exec
     description: "Execute a shell command"
     params:
       - { name: command, type: str, description: "Command to execute" }
       - { name: timeout, type: int, default: 120, description: "Timeout seconds" }
       - { name: working_dir, type: str, default: "", description: "Working directory" }
-  - name: shell_cd
+  - name: cd
     description: "Change working directory"
     params:
       - { name: path, type: str, description: "New directory" }
-  - name: shell_cwd
+  - name: cwd
     description: "Show current working directory"
-  - name: shell_which
+  - name: which
     description: "Find command path"
     params:
       - { name: command, type: str, description: "Command name" }
-  - name: shell_env
+  - name: env
     description: "Show environment variables"
     params:
       - { name: name, type: str, default: "", description: "Var name (empty = all)" }
-  - name: shell_set_env
+  - name: set_env
     description: "Set environment variable"
     params:
       - { name: name, type: str, description: "Variable name" }
       - { name: value, type: str, default: "", description: "Value (empty = unset)" }
 
   # System (4)
-  - name: shell_ps
+  - name: ps
     description: "List processes"
     params:
       - { name: filter, type: str, default: "", description: "Filter by name" }
-  - name: shell_sysinfo
+  - name: sysinfo
     description: "Show system information"
-  - name: shell_port_check
+  - name: port_check
     description: "Check if a port is open"
     params:
       - { name: port, type: int, default: 0, description: "Port (0 = list open)" }
       - { name: host, type: str, default: "127.0.0.1", description: "Host" }
-  - name: shell_disk_usage
+  - name: disk_usage
     description: "Show disk usage"
     params:
       - { name: path, type: str, default: ".", description: "Path to check" }
-
-  # HTTP (2)
-  - name: shell_http_request
-    description: "Make an HTTP request"
-    params:
-      - { name: url, type: str, description: "URL" }
-      - { name: method, type: str, default: "GET", description: "HTTP method" }
-      - { name: data, type: str, default: "", description: "Request body" }
-      - { name: headers, type: str, default: "", description: "Headers as key:value" }
-  - name: shell_json_query
-    description: "Query a JSON file"
-    params:
-      - { name: path, type: str, description: "JSON file path" }
-      - { name: query, type: str, default: "", description: "JSONPath query" }
-
-  # Git (4)
-  - name: shell_git
-    description: "Run a git command"
-    params:
-      - { name: command, type: str, description: "Git subcommand and args" }
-  - name: shell_git_status
-    description: "Show git status"
-  - name: shell_git_log
-    description: "Show git log"
-    params:
-      - { name: count, type: int, default: 10, description: "Number of entries" }
-  - name: shell_git_diff
-    description: "Show git diff"
-    params:
-      - { name: staged, type: bool, default: false, description: "Staged changes" }
-      - { name: file, type: str, default: "", description: "Specific file" }
-
-  # Services (3)
-  - name: shell_systemctl
-    description: "Manage systemd services"
-    params:
-      - { name: action, type: str, description: "Action (status, start, stop, restart)" }
-      - { name: service, type: str, default: "", description: "Service name" }
-      - { name: user, type: bool, default: true, description: "User service" }
-  - name: shell_pip_list
-    description: "List installed pip packages"
-    params:
-      - { name: filter, type: str, default: "", description: "Filter by name" }
-  - name: shell_pip_install
-    description: "Install a pip package"
-    params:
-      - { name: package, type: str, description: "Package name" }
-      - { name: upgrade, type: bool, default: false, description: "Upgrade" }
-
-  # History (1)
-  - name: shell_history
-    description: "Show tool call history"
-    params:
-      - { name: count, type: int, default: 20, description: "Number of entries" }
-      - { name: filter, type: str, default: "", description: "Filter by tool name" }
-      - { name: full, type: bool, default: false, description: "Full output" }

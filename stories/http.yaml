@@ -1,0 +1,56 @@
+# MCP HTTP Tools — Story
+# Rausgeloest aus shell v3, eigenstaendiges Package
+name: http
+description: "HTTP client tools for MCP — requests, JSON, downloads, headers, status checks"
+version: "1.0.0"
+
+dependencies:
+  - "httpx>=0.26.0"
+
+client:
+  class_name: HttpClient
+
+tools:
+  - name: http_request
+    description: "Make an HTTP request"
+    params:
+      - { name: url, type: str, description: "URL" }
+      - { name: method, type: str, default: "GET", description: "HTTP method" }
+      - { name: data, type: str, default: "", description: "Request body (JSON string)" }
+      - { name: headers, type: str, default: "", description: "Headers as key:value, comma-separated" }
+      - { name: timeout, type: int, default: 30, description: "Timeout in seconds" }
+
+  - name: http_json
+    description: "GET a URL and parse JSON response"
+    params:
+      - { name: url, type: str, description: "URL" }
+      - { name: query, type: str, default: "", description: "JSONPath-like query (e.g. data.items)" }
+
+  - name: http_download
+    description: "Download a file from URL"
+    params:
+      - { name: url, type: str, description: "URL" }
+      - { name: path, type: str, description: "Local save path" }
+
+  - name: http_head
+    description: "Get HTTP headers without body"
+    params:
+      - { name: url, type: str, description: "URL" }
+
+  - name: http_status
+    description: "Check if a URL is reachable (status code)"
+    params:
+      - { name: url, type: str, description: "URL" }
+      - { name: expected, type: int, default: 200, description: "Expected status code" }
+
+  - name: http_form_post
+    description: "Submit a form (multipart/form-data)"
+    params:
+      - { name: url, type: str, description: "URL" }
+      - { name: fields, type: str, description: "Fields as key=value, comma-separated" }
+
+  - name: json_query
+    description: "Query a local JSON file"
+    params:
+      - { name: path, type: str, description: "JSON file path" }
+      - { name: query, type: str, default: "", description: "Dot-notation query (e.g. data.items.0.name)" }

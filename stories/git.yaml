@@ -1,0 +1,116 @@
+# MCP Git Tools — Story
+# Rausgeloest aus shell v3, eigenstaendiges Package
+name: git
+description: "Git version control tools for MCP — status, log, diff, commit, branch, stash, remote, blame"
+version: "1.0.0"
+
+# Keine Dependencies — subprocess calls to git binary
+
+tools:
+  # Status & Info (4)
+  - name: git_status
+    description: "Show working tree status"
+    params:
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  - name: git_log
+    description: "Show commit log"
+    params:
+      - { name: count, type: int, default: 10, description: "Number of entries" }
+      - { name: oneline, type: bool, default: true, description: "One line per commit" }
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  - name: git_diff
+    description: "Show changes"
+    params:
+      - { name: staged, type: bool, default: false, description: "Show staged changes" }
+      - { name: file, type: str, default: "", description: "Specific file" }
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  - name: git_blame
+    description: "Show line-by-line authorship"
+    params:
+      - { name: file, type: str, description: "File to blame" }
+      - { name: start_line, type: int, default: 0, description: "Start line (0 = beginning)" }
+      - { name: end_line, type: int, default: 0, description: "End line (0 = end)" }
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  # Staging & Commit (3)
+  - name: git_add
+    description: "Stage files for commit"
+    params:
+      - { name: files, type: str, description: "Files to add (space-separated, or '.' for all)" }
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  - name: git_commit
+    description: "Create a commit"
+    params:
+      - { name: message, type: str, description: "Commit message" }
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  - name: git_reset
+    description: "Unstage files"
+    params:
+      - { name: files, type: str, default: "", description: "Files to unstage (empty = all)" }
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  # Branches (4)
+  - name: git_branch_list
+    description: "List branches"
+    params:
+      - { name: remote, type: bool, default: false, description: "Include remote branches" }
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  - name: git_branch_create
+    description: "Create a new branch"
+    params:
+      - { name: name, type: str, description: "Branch name" }
+      - { name: checkout, type: bool, default: true, description: "Switch to new branch" }
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  - name: git_checkout
+    description: "Switch branch or restore files"
+    params:
+      - { name: target, type: str, description: "Branch name or file path" }
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  - name: git_merge
+    description: "Merge a branch into current"
+    params:
+      - { name: branch, type: str, description: "Branch to merge" }
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  # Stash (3)
+  - name: git_stash
+    description: "Stash working changes"
+    params:
+      - { name: message, type: str, default: "", description: "Stash message" }
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  - name: git_stash_list
+    description: "List stashes"
+    params:
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  - name: git_stash_pop
+    description: "Apply and drop top stash"
+    params:
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  # Remote (2)
+  - name: git_remote_list
+    description: "List remotes"
+    params:
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  - name: git_pull
+    description: "Pull from remote"
+    params:
+      - { name: remote, type: str, default: "origin", description: "Remote name" }
+      - { name: path, type: str, default: ".", description: "Repository path" }
+
+  # Tags (1)
+  - name: git_tag_list
+    description: "List tags"
+    params:
+      - { name: path, type: str, default: ".", description: "Repository path" }

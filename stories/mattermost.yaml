@@ -1,8 +1,8 @@
-# MCP Mattermost Tools — Story (existierend, v1.0.0)
-# Status: implementiert, Code in mattermost/src/mcp_mattermost_tools/mattermost/
+# MCP Mattermost Tools — Story v2.0.0
+# Status: v1 implementiert (5 Tools), Erweiterung auf 15 Tools
 name: mattermost
-description: "Mattermost chat tools for MCP — send messages, channels, posts, search"
-version: "1.0.0"
+description: "Mattermost chat tools for MCP — messages, channels, threads, DMs, reactions, files, status"
+version: "2.0.0"
 
 dependencies:
   - "httpx>=0.26.0"
@@ -14,14 +14,13 @@ client:
     - token
 
 tools:
+  # Messages (3)
   - name: mm_send_message
     description: "Send a message to a channel"
     params:
       - { name: channel_id, type: str, description: "Channel ID" }
       - { name: message, type: str, description: "Message text" }
-
-  - name: mm_get_channels
-    description: "List channels the user belongs to"
+      - { name: root_id, type: str, default: "", description: "Thread root post ID (empty = new post)" }
 
   - name: mm_get_posts
     description: "Get recent posts from a channel"
@@ -29,12 +28,70 @@ tools:
       - { name: channel_id, type: str, description: "Channel ID" }
       - { name: limit, type: int, default: 10, description: "Number of posts" }
 
+  - name: mm_get_thread
+    description: "Get all replies in a thread"
+    params:
+      - { name: post_id, type: str, description: "Root post ID" }
+
+  # Search (2)
   - name: mm_search_posts
     description: "Search posts across channels"
     params:
       - { name: query, type: str, description: "Search query" }
 
+  - name: mm_get_post
+    description: "Get a single post by ID"
+    params:
+      - { name: post_id, type: str, description: "Post ID" }
+
+  # Channels (3)
+  - name: mm_get_channels
+    description: "List channels the user belongs to"
+
+  - name: mm_get_channel_info
+    description: "Get channel details"
+    params:
+      - { name: channel_id, type: str, description: "Channel ID" }
+
+  - name: mm_create_dm
+    description: "Create or get a direct message channel"
+    params:
+      - { name: user_id, type: str, description: "Other user's ID" }
+
+  # Users (3)
   - name: mm_get_user
     description: "Get user info"
     params:
       - { name: username, type: str, default: "", description: "Username (empty = self)" }
+
+  - name: mm_get_team_members
+    description: "List members of the current team"
+
+  - name: mm_set_status
+    description: "Set own user status"
+    params:
+      - { name: status, type: str, description: "online, away, dnd, or offline" }
+
+  # Reactions (2)
+  - name: mm_add_reaction
+    description: "Add an emoji reaction to a post"
+    params:
+      - { name: post_id, type: str, description: "Post ID" }
+      - { name: emoji, type: str, description: "Emoji name (e.g. thumbsup)" }
+
+  - name: mm_get_reactions
+    description: "Get reactions on a post"
+    params:
+      - { name: post_id, type: str, description: "Post ID" }
+
+  # Files (2)
+  - name: mm_upload_file
+    description: "Upload a file to a channel"
+    params:
+      - { name: channel_id, type: str, description: "Channel ID" }
+      - { name: path, type: str, description: "Local file path" }
+
+  - name: mm_get_file_info
+    description: "Get file metadata from a post"
+    params:
+      - { name: file_id, type: str, description: "File ID" }

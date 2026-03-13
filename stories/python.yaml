@@ -1,0 +1,50 @@
+# MCP Python Tools — Story
+# Python-Umgebung verwalten: venvs, pip, versions
+name: python
+description: "Python environment tools for MCP — venvs, pip, packages, interpreter info"
+version: "1.0.0"
+
+# Keine extra Dependencies — subprocess + stdlib
+
+tools:
+  - name: py_version
+    description: "Show Python version and path"
+
+  - name: py_pip_list
+    description: "List installed packages"
+    params:
+      - { name: filter, type: str, default: "", description: "Filter by name" }
+      - { name: outdated, type: bool, default: false, description: "Show only outdated" }
+
+  - name: py_pip_install
+    description: "Install a package"
+    params:
+      - { name: package, type: str, description: "Package name (with optional version spec)" }
+      - { name: upgrade, type: bool, default: false, description: "Upgrade if installed" }
+
+  - name: py_pip_show
+    description: "Show package details"
+    params:
+      - { name: package, type: str, description: "Package name" }
+
+  - name: py_pip_uninstall
+    description: "Uninstall a package"
+    params:
+      - { name: package, type: str, description: "Package name" }
+
+  - name: py_venv_create
+    description: "Create a virtual environment"
+    params:
+      - { name: path, type: str, default: ".venv", description: "Venv path" }
+      - { name: python, type: str, default: "python3", description: "Python interpreter" }
+
+  - name: py_venv_info
+    description: "Show venv info (path, Python version, packages count)"
+    params:
+      - { name: path, type: str, default: ".venv", description: "Venv path" }
+
+  - name: py_run
+    description: "Run a Python expression and return result"
+    params:
+      - { name: code, type: str, description: "Python code to execute" }
+      - { name: timeout, type: int, default: 30, description: "Timeout in seconds" }
