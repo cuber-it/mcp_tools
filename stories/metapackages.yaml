@@ -1,0 +1,45 @@
+# MCP Metapackages — Convenience-Buendel
+# Keine eigene Logik, nur Dependency-Gruppen
+# Werden NICHT vom Generator erzeugt, sondern sind reine pyproject.toml-Dateien
+
+# Geplante Metapackages:
+#
+# mcp-devtools:
+#   - mcp-shell-tools
+#   - mcp-git-tools
+#   - mcp-python-tools
+#   - mcp-http-tools
+#   - mcp-docker-tools
+#   - mcp-database-tools
+#
+# mcp-homelab:
+#   - mcp-systemd-tools
+#   - mcp-traefik-tools
+#   - mcp-prometheus-tools
+#   - mcp-mqtt-tools
+#   - mcp-homeassistant-tools
+#
+# mcp-research:
+#   - mcp-wikipedia-tools
+#   - mcp-arxiv-tools
+#   - mcp-scraper-tools
+#   - mcp-rss-tools
+#   - mcp-browser-tools
+#
+# mcp-office:
+#   - mcp-mattermost-tools
+#   - mcp-email-tools
+#   - mcp-wekan-tools
+#   - mcp-paperless-tools
+#   - mcp-obsidian-tools
+#   - mcp-jupyter-tools
+#
+# mcp-all-tools:
+#   - alle oben genannten
+
+name: _metapackages
+description: "Convenience bundles — pip install mcp-devtools gets you shell+git+python+http+docker+database"
+version: "0.0.0"
+
+# Kein Generator noetig — manuell anlegen als reine pyproject.toml pro Metapackage
+# Idee: Auch im Proxy als autoload_group unterstuetzen
