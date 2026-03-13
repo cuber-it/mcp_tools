@@ -1,0 +1,72 @@
+# MCP Finance Tools — Story
+# Financial data via yfinance, erweiterbar um weitere Provider
+name: finance
+description: "Financial market data tools for MCP — quotes, history, fundamentals, news"
+version: "1.0.0"
+
+dependencies:
+  - "yfinance>=0.2.36"
+
+client:
+  class_name: FinanceClient
+
+tools:
+  # Quotes & Prices
+  - name: quote
+    description: "Get current quote for a ticker"
+    params:
+      - { name: ticker, type: str, description: "Ticker symbol (e.g. AAPL, MSFT, ^GSPC)" }
+
+  - name: history
+    description: "Get price history for a ticker"
+    params:
+      - { name: ticker, type: str, description: "Ticker symbol" }
+      - { name: period, type: str, default: "1mo", description: "Period (1d, 5d, 1mo, 3mo, 6mo, 1y, 5y, max)" }
+      - { name: interval, type: str, default: "1d", description: "Interval (1m, 5m, 15m, 1h, 1d, 1wk, 1mo)" }
+
+  - name: compare
+    description: "Compare multiple tickers"
+    params:
+      - { name: tickers, type: str, description: "Comma-separated ticker symbols" }
+      - { name: period, type: str, default: "1mo", description: "Period" }
+
+  # Fundamentals
+  - name: info
+    description: "Get company info and key stats"
+    params:
+      - { name: ticker, type: str, description: "Ticker symbol" }
+
+  - name: financials
+    description: "Get income statement, balance sheet, cash flow"
+    params:
+      - { name: ticker, type: str, description: "Ticker symbol" }
+      - { name: statement, type: str, default: "income", description: "income, balance, cashflow" }
+      - { name: quarterly, type: bool, default: false, description: "Quarterly instead of annual" }
+
+  - name: dividends
+    description: "Get dividend history"
+    params:
+      - { name: ticker, type: str, description: "Ticker symbol" }
+
+  - name: holders
+    description: "Get major holders and institutional holders"
+    params:
+      - { name: ticker, type: str, description: "Ticker symbol" }
+
+  # Analysis & News
+  - name: recommendations
+    description: "Get analyst recommendations"
+    params:
+      - { name: ticker, type: str, description: "Ticker symbol" }
+
+  - name: news
+    description: "Get recent news for a ticker"
+    params:
+      - { name: ticker, type: str, description: "Ticker symbol" }
+
+  # Screening
+  - name: sector_performance
+    description: "Get performance by market sector"
+
+  - name: market_summary
+    description: "Get major index summary (DAX, S&P500, NASDAQ, etc.)"

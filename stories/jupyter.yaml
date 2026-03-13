@@ -1,0 +1,91 @@
+# MCP Jupyter Tools — Story
+# Jupyter Notebook + JupyterHub Integration
+name: jupyter
+description: "Jupyter tools for MCP — notebooks, kernels, JupyterHub users and servers"
+version: "1.0.0"
+
+dependencies:
+  - "httpx>=0.26.0"
+  - "nbformat>=5.9"
+
+client:
+  class_name: JupyterClient
+  config_keys:
+    - url
+    - token
+
+tools:
+  # Notebook Operations
+  - name: notebook_list
+    description: "List notebooks in a directory"
+    params:
+      - { name: path, type: str, default: "", description: "Directory path" }
+
+  - name: notebook_read
+    description: "Read a notebook (cells with outputs)"
+    params:
+      - { name: path, type: str, description: "Notebook path" }
+
+  - name: notebook_create
+    description: "Create a new notebook"
+    params:
+      - { name: path, type: str, description: "Notebook path" }
+      - { name: kernel, type: str, default: "python3", description: "Kernel name" }
+
+  - name: notebook_add_cell
+    description: "Add a cell to a notebook"
+    params:
+      - { name: path, type: str, description: "Notebook path" }
+      - { name: source, type: str, description: "Cell content" }
+      - { name: cell_type, type: str, default: "code", description: "code or markdown" }
+      - { name: position, type: int, default: -1, description: "Insert position (-1 = end)" }
+
+  - name: notebook_execute
+    description: "Execute a notebook or specific cell"
+    params:
+      - { name: path, type: str, description: "Notebook path" }
+      - { name: cell_index, type: int, default: -1, description: "Cell index (-1 = all)" }
+
+  - name: notebook_export
+    description: "Export notebook to another format"
+    params:
+      - { name: path, type: str, description: "Notebook path" }
+      - { name: format, type: str, default: "html", description: "Export format (html, pdf, markdown, script)" }
+
+  # Kernel Management
+  - name: kernel_list
+    description: "List running kernels"
+
+  - name: kernel_start
+    description: "Start a new kernel"
+    params:
+      - { name: kernel_name, type: str, default: "python3", description: "Kernel spec name" }
+
+  - name: kernel_interrupt
+    description: "Interrupt a running kernel"
+    params:
+      - { name: kernel_id, type: str, description: "Kernel ID" }
+
+  - name: kernel_restart
+    description: "Restart a kernel"
+    params:
+      - { name: kernel_id, type: str, description: "Kernel ID" }
+
+  # JupyterHub
+  - name: hub_user_list
+    description: "List JupyterHub users"
+
+  - name: hub_user_info
+    description: "Get info about a JupyterHub user"
+    params:
+      - { name: username, type: str, description: "Username" }
+
+  - name: hub_server_start
+    description: "Start a user's JupyterHub server"
+    params:
+      - { name: username, type: str, description: "Username" }
+
+  - name: hub_server_stop
+    description: "Stop a user's JupyterHub server"
+    params:
+      - { name: username, type: str, description: "Username" }

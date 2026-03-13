@@ -21,6 +21,8 @@ Scaffolded from [story files](stories/), ready for implementation.
 
 | Package | PyPI | Tools | Description |
 |---------|------|-------|-------------|
+| [jupyter](jupyter/) | `mcp-jupyter-tools` | 14 | Notebooks, kernels, JupyterHub users and servers |
+| [finance](finance/) | `mcp-finance-tools` | 11 | Market data via yfinance — quotes, history, fundamentals, news |
 | [docker](docker/) | `mcp-docker-tools` | 15 | Containers, images, volumes, compose |
 | [browser](browser/) | `mcp-browser-tools` | 12 | Playwright — navigate, extract, screenshot, interact |
 | [database](database/) | `mcp-database-tools` | 8 | SQLite and PostgreSQL — query, schema, export |
