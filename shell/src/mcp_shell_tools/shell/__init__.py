@@ -1,7 +1,7 @@
 """Shell tools — MCP plugin for workstation access.
 
-Provides filesystem, search, shell execution, git, systemd, HTTP,
-JSON query, package management, and system diagnostics.
+Provides filesystem, editor, search, shell execution, and system diagnostics.
+Git, HTTP, pip, and systemd have been split into separate packages (v4.0).
 
 Config keys:
     working_dir: Initial working directory (optional, defaults to cwd)
@@ -201,62 +201,3 @@ def register(mcp, config: dict) -> None:
         """Show disk usage of directory and its subdirectories."""
         return tools.disk_usage(path)
 
-    # --- HTTP ---
-
-    @tool()
-    def shell_http_request(url: str, method: str = "GET", data: str = "", headers: str = "") -> str:
-        """Make HTTP request (like curl). Headers as 'Key: Value' per line."""
-        return tools.http_request(url, method, data, headers)
-
-    @tool()
-    def shell_json_query(path: str, query: str = "") -> str:
-        """Read JSON file and extract data. Query uses dot notation: 'key.subkey.0.name'."""
-        return tools.json_query(path, query)
-
-    # --- Git ---
-
-    @tool()
-    def shell_git(command: str) -> str:
-        """Run a git command. Examples: 'status', 'log --oneline -10', 'diff', 'branch -a'."""
-        return tools.git(command)
-
-    @tool()
-    def shell_git_status() -> str:
-        """Quick git status: branch, staged, modified, untracked."""
-        return tools.git_status()
-
-    @tool()
-    def shell_git_log(count: int = 10) -> str:
-        """Recent git commits (oneline format with graph)."""
-        return tools.git_log(count)
-
-    @tool()
-    def shell_git_diff(staged: bool = False, file: str = "") -> str:
-        """Show git diff. staged=True for cached changes. Optional specific file."""
-        return tools.git_diff(staged, file)
-
-    # --- systemd ---
-
-    @tool()
-    def shell_systemctl(action: str, service: str = "", user: bool = True) -> str:
-        """Manage systemd services. Actions: status, start, stop, restart, enable, disable, list, logs."""
-        return tools.systemctl(action, service, user)
-
-    # --- Package Management ---
-
-    @tool()
-    def shell_pip_list(filter: str = "") -> str:
-        """List installed Python packages. Optional filter by name."""
-        return tools.pip_list(filter)
-
-    @tool()
-    def shell_pip_install(package: str, upgrade: bool = False) -> str:
-        """Install a Python package. Use upgrade=True to upgrade existing."""
-        return tools.pip_install(package, upgrade)
-
-    # --- History ---
-
-    @tool()
-    def shell_history(count: int = 20, filter: str = "", full: bool = False) -> str:
-        """Show tool call history. filter by tool/args. full=True shows complete results."""
-        return tools.history(count, filter, full)

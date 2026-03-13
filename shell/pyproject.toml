@@ -1,14 +1,14 @@
 [project]
 name = "mcp-shell-tools"
-version = "3.0.0"
-description = "33 workstation tools for MCP — filesystem, editor, search, shell, git, systemd, HTTP, packages"
+version = "4.0.0"
+description = "26 workstation tools for MCP — filesystem, editor, search, shell, system diagnostics"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
 authors = [
     { name = "Ulrich Berkmueller", email = "ulrich@cuber-it.de" },
 ]
-keywords = ["mcp", "shell", "tools", "development", "workstation"]
+keywords = ["mcp", "shell", "tools", "filesystem", "workstation"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -16,7 +16,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
-    "mcp-server-framework>=1.2.1",
+    "mcp-server-framework>=1.4.0",
 ]
 
 [project.urls]
