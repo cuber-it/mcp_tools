@@ -10,7 +10,7 @@ Implemented, tested, ready to use.
 
 | Package | PyPI | Tools | Description |
 |---------|------|-------|-------------|
-| [shell](shell/) | `mcp-shell-tools` | 36 | Filesystem, editor, search, shell, git, systemd, HTTP, packages |
+| [shell](shell/) | `mcp-shell-tools` | 26 | Filesystem, editor, search, shell, system |
 | [wekan](wekan/) | `mcp-wekan-tools` | 18 | Wekan Kanban REST API — boards, lists, cards, checklists, labels |
 | [mattermost](mattermost/) | `mcp-mattermost-tools` | 5 | Mattermost REST API — messages, channels, search |
 | [wikipedia](wikipedia/) | `mcp-wikipedia-tools` | 6 | Wikipedia REST + MediaWiki API — search, articles, summaries, multilingual |
@@ -41,6 +41,20 @@ Scaffolded from [story files](stories/), ready for implementation.
 | [mqtt](mqtt/) | `mcp-mqtt-tools` | 6 | Publish, subscribe, topics |
 | [homeassistant](homeassistant/) | `mcp-homeassistant-tools` | 10 | Entities, services, automations, history |
 
+### Metapackages (planned)
+
+Convenience bundles — install a curated set of tools in one step.
+
+| Metapackage | Includes | Use case |
+|-------------|----------|----------|
+| `mcp-devtools` | shell, git, python, http, docker, database | Developer workstation |
+| `mcp-homelab` | systemd, traefik, prometheus, mqtt, homeassistant | Self-hosted infrastructure |
+| `mcp-research` | wikipedia, arxiv, scraper, rss, browser | Research and information gathering |
+| `mcp-office` | email, mattermost, wekan, paperless, obsidian | Productivity and communication |
+
+Each metapackage is a pure dependency bundle — no code, just `pip install mcp-devtools`
+and all included packages are available.
+
 ## Installation
 
 Each package installs independently:
@@ -56,7 +70,7 @@ pip install mcp-mattermost-tools
 ### Standalone MCP server
 
 ```bash
-mcp-shell-tools                    # starts stdio MCP server with 33 tools
+mcp-shell-tools                    # starts stdio MCP server with 26 tools
 mcp-wekan-tools                    # starts stdio MCP server with Wekan tools
 mcp-mattermost-tools               # starts stdio MCP server with Mattermost tools
 ```
@@ -115,11 +129,16 @@ Each package follows the same pattern:
 - Zero or minimal dependencies beyond `mcp-server-framework`
 
 ```
-mcp-server-framework (config, transport, health, OAuth)
+mcp-server-framework (config, transport, health, OAuth, PluginRegistry, ToolLogger)
     ↑
     ├── mcp-shell-tools      (stdlib only)
+    ├── mcp-git-tools        (stdlib only)
     ├── mcp-wekan-tools      (+ httpx)
-    └── mcp-mattermost-tools (+ httpx)
+    ├── mcp-mattermost-tools (+ httpx)
+    ├── mcp-wikipedia-tools  (+ httpx)
+    └── ...
+    ↑
+    mcp-devtools             (metapackage — no code, just dependencies)
 ```
 
 ## License
