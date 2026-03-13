@@ -1,0 +1,44 @@
+# MCP Tool Package Story
+# ========================
+# Beschreibt ein neues Tool-Package für das mcp_tools Monorepo.
+# Usage: python scripts/new-tool.py stories/<name>.yaml
+
+# Pflichtfelder
+name: myservice                          # Package-Unterverzeichnis + Python-Modulname
+description: "Short description for PyPI and README"
+version: "1.0.0"
+
+# Optional: PyPI-Name (default: mcp-{name}-tools)
+# pypi_name: mcp-myservice-tools
+
+# Optional: Extra-Dependencies (mcp-server-framework ist immer dabei)
+# dependencies:
+#   - "httpx>=0.26.0"
+#   - "docker>=7.0.0"
+
+# Optional: Client-Klasse generieren (für API-basierte Tools)
+# client:
+#   class_name: MyServiceClient          # default: {Name}Client
+#   config_keys:                         # Keys aus config.yaml
+#     - url
+#     - token
+
+# Tools — jedes Tool wird als Stub in register() und tools.py generiert
+tools:
+  - name: my_tool
+    description: "What this tool does"
+    params:
+      - name: query
+        type: str
+        description: "Search query"
+      - name: limit
+        type: int
+        default: 10
+        description: "Max results"
+
+  - name: my_other_tool
+    description: "Another tool"
+    params:
+      - name: item_id
+        type: str
+        description: "Item identifier"

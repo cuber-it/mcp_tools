@@ -1,0 +1,127 @@
+# MCP Docker Tools — Story
+name: docker
+description: "Container management tools for MCP — containers, images, volumes, compose"
+version: "1.0.0"
+
+dependencies:
+  - "docker>=7.0.0"
+
+client:
+  class_name: DockerClient
+  config_keys:
+    - base_url
+
+tools:
+  - name: container_list
+    description: "List containers"
+    params:
+      - name: all
+        type: bool
+        default: false
+        description: "Include stopped containers"
+
+  - name: container_start
+    description: "Start a stopped container"
+    params:
+      - name: container_id
+        type: str
+        description: "Container ID or name"
+
+  - name: container_stop
+    description: "Stop a running container"
+    params:
+      - name: container_id
+        type: str
+        description: "Container ID or name"
+      - name: timeout
+        type: int
+        default: 10
+        description: "Seconds to wait before killing"
+
+  - name: container_restart
+    description: "Restart a container"
+    params:
+      - name: container_id
+        type: str
+        description: "Container ID or name"
+
+  - name: container_remove
+    description: "Remove a container"
+    params:
+      - name: container_id
+        type: str
+        description: "Container ID or name"
+      - name: force
+        type: bool
+        default: false
+        description: "Force removal of running container"
+
+  - name: container_logs
+    description: "Get container logs"
+    params:
+      - name: container_id
+        type: str
+        description: "Container ID or name"
+      - name: tail
+        type: int
+        default: 100
+        description: "Number of lines from end"
+
+  - name: container_inspect
+    description: "Inspect container details"
+    params:
+      - name: container_id
+        type: str
+        description: "Container ID or name"
+
+  - name: image_list
+    description: "List local images"
+
+  - name: image_pull
+    description: "Pull an image from registry"
+    params:
+      - name: image
+        type: str
+        description: "Image name with optional tag"
+
+  - name: image_remove
+    description: "Remove a local image"
+    params:
+      - name: image
+        type: str
+        description: "Image name or ID"
+      - name: force
+        type: bool
+        default: false
+        description: "Force removal"
+
+  - name: volume_list
+    description: "List volumes"
+
+  - name: network_list
+    description: "List networks"
+
+  - name: compose_up
+    description: "Start services from compose file"
+    params:
+      - name: path
+        type: str
+        description: "Path to docker-compose.yaml"
+      - name: detach
+        type: bool
+        default: true
+        description: "Run in background"
+
+  - name: compose_down
+    description: "Stop and remove compose services"
+    params:
+      - name: path
+        type: str
+        description: "Path to docker-compose.yaml"
+
+  - name: compose_ps
+    description: "List compose service status"
+    params:
+      - name: path
+        type: str
+        description: "Path to docker-compose.yaml"

@@ -1,0 +1,34 @@
+[project]
+name = "mcp-shell-tools"
+version = "3.0.0"
+description = "33 workstation tools for MCP — filesystem, editor, search, shell, git, systemd, HTTP, packages"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Ulrich Berkmueller", email = "ulrich@cuber-it.de" },
+]
+keywords = ["mcp", "shell", "tools", "development", "workstation"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "mcp-server-framework>=1.2.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/cuber-it/mcp_tools"
+Repository = "https://github.com/cuber-it/mcp_tools"
+
+[project.scripts]
+mcp-shell-tools = "mcp_shell_tools:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_shell_tools"]
