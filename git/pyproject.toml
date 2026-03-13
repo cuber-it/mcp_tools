@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/cuber-it/mcp_tools"
+Homepage = "https://www.uc-it.de"
 Repository = "https://github.com/cuber-it/mcp_tools"
 
 [project.scripts]
