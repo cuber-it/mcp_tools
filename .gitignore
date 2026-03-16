@@ -7,3 +7,7 @@ build/
 *.egg
 .pytest_cache/
 .claude/
+
+# Private — not published
+scripts/
+stories/
