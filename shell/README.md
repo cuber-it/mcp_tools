@@ -14,6 +14,24 @@ Built on [mcp-server-framework](https://pypi.org/project/mcp-server-framework/).
 pip install mcp-shell-tools
 ```
 
+## Dual use: MCP server + Python library
+
+This package works in two ways:
+
+- **As an MCP server** — usable by any MCP client (AI agents, IDE plugins, custom integrations)
+- **As a Python library** — import the functions directly, no MCP required
+
+```python
+from mcp_shell_tools.shell.filesystem import file_read, file_list
+from mcp_shell_tools.shell.search import grep
+from mcp_shell_tools.shell.system import sysinfo
+
+print(file_list("/home/user/projects"))
+print(grep("TODO", path="/home/user/projects", file_pattern="*.py"))
+```
+
+The MCP layer is a thin wrapper around plain Python functions. Use them in scripts, automation pipelines, or any application — no protocol overhead needed.
+
 ## Usage
 
 ### Standalone

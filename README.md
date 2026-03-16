@@ -14,6 +14,8 @@ Implemented, tested, ready to use.
 | [wekan](wekan/) | `mcp-wekan-tools` | 18 | Wekan Kanban REST API — boards, lists, cards, checklists, labels |
 | [mattermost](mattermost/) | `mcp-mattermost-tools` | 5 | Mattermost REST API — messages, channels, search |
 | [wikipedia](wikipedia/) | `mcp-wikipedia-tools` | 6 | Wikipedia REST + MediaWiki API — search, articles, summaries, multilingual |
+| [playwright](playwright/) | `mcp-playwright-tools` | 41 | Playwright browser automation tools for MCP — navigation, interaction, content extraction, and semantic locators |
+| [image](image/) | `mcp-image-tools` | 6 | Image processing tools for MCP — read, resize, crop, convert, return as base64 |
 
 ### Planned
 
