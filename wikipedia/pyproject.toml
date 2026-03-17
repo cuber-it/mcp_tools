@@ -1,6 +1,6 @@
     [project]
     name = "mcp-wikipedia-tools"
-    version = "1.0.0"
+    version = "1.0.1"
     description = "Wikipedia tools for MCP — search, articles, summaries, multilingual"
     readme = "README.md"
     license = "MIT"
