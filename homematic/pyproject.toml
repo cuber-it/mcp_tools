@@ -1,6 +1,6 @@
 [project]
 name = "mcp-homematic-tools"
-version = "1.0.1"
+version = "1.0.2"
 description = "60 HomeMatic/OpenCCU tools for MCP — full JSON-RPC API coverage for devices, channels, rooms, programs, system variables, events, and system management"
 readme = "README.md"
 license = "MIT"

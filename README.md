@@ -1,80 +1,28 @@
 # MCP Tools
 
-MCP tool plugins — each usable standalone or via the [mcp-server-framework](https://pypi.org/project/mcp-server-framework/) proxy.
+Production-ready MCP tool packages — each usable standalone or as a plugin for the [mcp-server-framework](https://pypi.org/project/mcp-server-framework/).
+
+Every package works in three ways:
+1. **Standalone MCP server** — `pip install` and run
+2. **Python library** — import and call functions directly
+3. **Framework plugin** — load via `register(mcp, config)`
 
 ## Packages
 
-### Production
-
-Implemented, tested, ready to use.
-
 | Package | PyPI | Tools | Description |
 |---------|------|-------|-------------|
-| [shell](shell/) | `mcp-shell-tools` | 26 | Filesystem, editor, search, shell, system |
-| [wekan](wekan/) | `mcp-wekan-tools` | 18 | Wekan Kanban REST API — boards, lists, cards, checklists, labels |
-| [mattermost](mattermost/) | `mcp-mattermost-tools` | 5 | Mattermost REST API — messages, channels, search |
-| [wikipedia](wikipedia/) | `mcp-wikipedia-tools` | 6 | Wikipedia REST + MediaWiki API — search, articles, summaries, multilingual |
-| [playwright](playwright/) | `mcp-playwright-tools` | 41 | Playwright browser automation tools for MCP — navigation, interaction, content extraction, and semantic locators |
-| [image](image/) | `mcp-image-tools` | 6 | Image processing tools for MCP — read, resize, crop, convert, return as base64 |
+| [shell](shell/) | [`mcp-shell-tools`](https://pypi.org/project/mcp-shell-tools/) | 26 | Filesystem, editor, search, shell, system diagnostics |
+| [homematic](homematic/) | [`mcp-homematic-tools`](https://pypi.org/project/mcp-homematic-tools/) | 60 | HomeMatic CCU3 / OpenCCU — devices, channels, rooms, programs, system variables |
+| [playwright](playwright/) | [`mcp-playwright-tools`](https://pypi.org/project/mcp-playwright-tools/) | 43 | Browser automation — navigation, interaction, content extraction, semantic locators |
+| [image](image/) | [`mcp-image-tools`](https://pypi.org/project/mcp-image-tools/) | 6 | Image processing — read, resize, crop, convert, base64 output |
 
-### Planned
+**135 tools** across 4 packages. All MIT licensed.
 
-Scaffolded from [story files](stories/), ready for implementation.
-
-| Package | PyPI | Tools | Description |
-|---------|------|-------|-------------|
-| [git](git/) | `mcp-git-tools` | 17 | Status, log, diff, commit, branch, stash, remote, blame |
-| [http](http/) | `mcp-http-tools` | 7 | Requests, JSON, downloads, headers, status checks |
-| [python](python/) | `mcp-python-tools` | 8 | Venvs, pip, packages, interpreter info |
-| [jupyter](jupyter/) | `mcp-jupyter-tools` | 14 | Notebooks, kernels, JupyterHub users and servers |
-| [finance](finance/) | `mcp-finance-tools` | 11 | Market data via yfinance — quotes, history, fundamentals, news |
-| [docker](docker/) | `mcp-docker-tools` | 15 | Containers, images, volumes, compose |
-| [browser](browser/) | `mcp-browser-tools` | 12 | Playwright — navigate, extract, screenshot, interact |
-| [database](database/) | `mcp-database-tools` | 8 | SQLite and PostgreSQL — query, schema, export |
-| [email](email/) | `mcp-email-tools` | 9 | IMAP inbox, search, send via SMTP |
-| [paperless](paperless/) | `mcp-paperless-tools` | 12 | Paperless-ngx document management |
-| [obsidian](obsidian/) | `mcp-obsidian-tools` | 11 | Vault read, write, search, links, tags, frontmatter |
-| [scraper](scraper/) | `mcp-scraper-tools` | 8 | Fetch pages, extract content, parse metadata |
-| [arxiv](arxiv/) | `mcp-arxiv-tools` | 6 | ArXiv paper search and retrieval |
-| [rss](rss/) | `mcp-rss-tools` | 8 | RSS/Atom feed reader |
-| [systemd](systemd/) | `mcp-systemd-tools` | 10 | Service management, journal, timers |
-| [traefik](traefik/) | `mcp-traefik-tools` | 9 | Routers, services, middlewares, certs |
-| [prometheus](prometheus/) | `mcp-prometheus-tools` | 8 | PromQL queries, alerts, targets |
-| [mqtt](mqtt/) | `mcp-mqtt-tools` | 6 | Publish, subscribe, topics |
-| [homeassistant](homeassistant/) | `mcp-homeassistant-tools` | 10 | Entities, services, automations, history |
-
-### Metapackages (planned)
-
-Convenience bundles — install a curated set of tools in one step.
-
-| Metapackage | Includes | Use case |
-|-------------|----------|----------|
-| `mcp-devtools` | shell, git, python, http, docker, database | Developer workstation |
-| `mcp-homelab` | systemd, traefik, prometheus, mqtt, homeassistant | Self-hosted infrastructure |
-| `mcp-research` | wikipedia, arxiv, scraper, rss, browser | Research and information gathering |
-| `mcp-office` | email, mattermost, wekan, paperless, obsidian | Productivity and communication |
-
-Each metapackage is a pure dependency bundle — no code, just `pip install mcp-devtools`
-and all included packages are available.
-
-## Installation
-
-Each package installs independently:
+## Quick Start
 
 ```bash
 pip install mcp-shell-tools
-pip install mcp-wekan-tools
-pip install mcp-mattermost-tools
-```
-
-## Usage
-
-### Standalone MCP server
-
-```bash
 mcp-shell-tools                    # starts stdio MCP server with 26 tools
-mcp-wekan-tools                    # starts stdio MCP server with Wekan tools
-mcp-mattermost-tools               # starts stdio MCP server with Mattermost tools
 ```
 
 ### Claude Code / Claude Desktop
@@ -83,64 +31,36 @@ mcp-mattermost-tools               # starts stdio MCP server with Mattermost too
 {
   "mcpServers": {
     "shell": { "command": "mcp-shell-tools" },
-    "wekan": { "command": "mcp-wekan-tools" },
-    "mattermost": { "command": "mcp-mattermost-tools" }
+    "playwright": { "command": "mcp-playwright-tools" },
+    "image": { "command": "mcp-image-tools" }
   }
 }
 ```
 
-### As proxy plugins
+### As Python library
 
-```yaml
-# proxy.yaml
-autoload:
-  - mcp_shell_tools.shell
-  - mcp_wekan_tools.wekan
-  - mcp_mattermost_tools.mattermost
+```python
+from mcp_shell_tools.shell import tools
+
+result = tools.file_read("/etc/hosts")
+files = tools.glob_search("**/*.py")
 ```
-
-## Creating new tools
-
-New packages are generated from YAML story files in `stories/`:
-
-```bash
-python scripts/new-tool.py stories/docker.yaml          # generate package
-python scripts/new-tool.py stories/docker.yaml --dry-run # preview only
-```
-
-### Claude Code Skill
-
-For Claude Code users there's a ready-made skill in `claude-tools/new-tool.md`:
-
-```bash
-# Symlink into your .claude/commands/
-ln -s "$(pwd)/claude-tools/new-tool.md" .claude/commands/new-tool.md
-
-# Then use it as:
-# /new-tool stories/docker.yaml
-```
-
-The skill reads the story, shows a plan, waits for confirmation, generates the scaffold, installs it, and runs the tests.
 
 ## Architecture
 
 Each package follows the same pattern:
 
-- `register(mcp, config)` — plugin interface for the proxy
-- `main()` — standalone entry point (6 lines, delegates to framework)
+- `register(mcp, config)` — plugin interface for the framework
+- `main()` — standalone entry point (delegates to framework)
 - Zero or minimal dependencies beyond `mcp-server-framework`
 
 ```
-mcp-server-framework (config, transport, health, OAuth, PluginRegistry, ToolLogger)
-    ↑
-    ├── mcp-shell-tools      (stdlib only)
-    ├── mcp-git-tools        (stdlib only)
-    ├── mcp-wekan-tools      (+ httpx)
-    ├── mcp-mattermost-tools (+ httpx)
-    ├── mcp-wikipedia-tools  (+ httpx)
-    └── ...
-    ↑
-    mcp-devtools             (metapackage — no code, just dependencies)
+mcp-server-framework (config, transport, health, plugin system)
+    |
+    +-- mcp-shell-tools      (stdlib only)
+    +-- mcp-homematic-tools  (+ httpx)
+    +-- mcp-playwright-tools (+ playwright)
+    +-- mcp-image-tools      (+ Pillow)
 ```
 
 ## License

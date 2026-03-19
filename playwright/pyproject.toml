@@ -1,35 +1,35 @@
-    [project]
-    name = "mcp-playwright-tools"
-    version = "1.0.0"
-    description = "Playwright browser automation tools for MCP — navigation, interaction, content extraction, and semantic locators"
-    readme = "README.md"
-    license = "MIT"
-    requires-python = ">=3.10"
-    authors = [
-        { name = "Ulrich Cuber", email = "sonstige@uc-it.de" },
-    ]
-    keywords = ["mcp", "playwright", "tools"]
-    classifiers = [
-        "Development Status :: 3 - Alpha",
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3",
-    ]
-    dependencies = [
-        "mcp-server-framework>=1.3.0",
-"playwright>=1.40.0",
-    ]
+[project]
+name = "mcp-playwright-tools"
+version = "1.0.0"
+description = "Playwright browser automation tools for MCP — navigation, interaction, content extraction, and semantic locators"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Ulrich Cuber", email = "sonstige@uc-it.de" },
+]
+keywords = ["mcp", "playwright", "tools"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "mcp-server-framework>=1.4.0",
+    "playwright>=1.40.0",
+]
 
-    [project.urls]
-    Homepage = "https://github.com/cuber-it/mcp_tools"
-    Repository = "https://github.com/cuber-it/mcp_tools"
+[project.urls]
+Homepage = "https://mcp-tools.dev"
+Repository = "https://github.com/cuber-it/mcp_tools"
 
-    [project.scripts]
-    mcp-playwright-tools = "mcp_playwright_tools:main"
+[project.scripts]
+mcp-playwright-tools = "mcp_playwright_tools:main"
 
-    [build-system]
-    requires = ["hatchling"]
-    build-backend = "hatchling.build"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-    [tool.hatch.build.targets.wheel]
-    packages = ["src/mcp_playwright_tools"]
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_playwright_tools"]
