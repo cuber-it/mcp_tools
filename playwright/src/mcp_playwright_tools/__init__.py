@@ -1,7 +1,4 @@
-"""mcp-playwright-tools — Playwright browser automation tools for MCP — navigation, interaction, content extraction, and semantic locators
-
-Built on mcp-server-framework. Can also be used as a plugin via register().
-"""
+"""Playwright browser automation tools for MCP."""
 
 __version__ = "1.0.0"
 

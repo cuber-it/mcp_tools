@@ -162,3 +162,40 @@ def vault_find(registry: VaultRegistry, query: str, vault: str = "", limit: int 
         return "\n".join(results) if results else "(no results)"
     except Exception as e:
         return f"Error: {e}"
+
+
+def vault_query(registry: VaultRegistry, from_folder: str = "",
+                where: dict | None = None, tags: list[str] | None = None,
+                sort: str = "", fields: list[str] | None = None,
+                limit: int = 20, descending: bool = False, vault: str = "") -> str:
+    """Combined query against the in-memory index.
+
+    Filters by folder, frontmatter fields (AND), and tags.
+    Sorts by frontmatter field, 'modified', or 'name'.
+    Returns JSON array of matching notes with requested fields.
+    """
+    try:
+        if vault == "*":
+            all_results = []
+            for vc in registry.resolve_all():
+                idx = registry.get_index(vc.name)
+                results = idx.query(
+                    from_folder=from_folder, where=where, tags=tags,
+                    sort=sort, fields=fields, limit=limit, descending=descending,
+                )
+                for r in results:
+                    r["vault"] = vc.name
+                all_results.extend(results)
+            if limit:
+                all_results = all_results[:limit]
+            return json.dumps(all_results, indent=2, default=str)
+
+        vc_name = vault or registry.default_name
+        idx = registry.get_index(vc_name)
+        results = idx.query(
+            from_folder=from_folder, where=where, tags=tags,
+            sort=sort, fields=fields, limit=limit, descending=descending,
+        )
+        return json.dumps(results, indent=2, default=str) if results else "(no results)"
+    except Exception as e:
+        return f"Error: {e}"

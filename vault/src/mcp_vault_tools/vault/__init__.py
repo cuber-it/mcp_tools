@@ -70,6 +70,16 @@ def register(mcp, config: dict) -> None:
         """Find notes by frontmatter field value."""
         return tools.vault_search_frontmatter(registry, key, value, vault)
 
+    @mcp.tool()
+    def vault_query(from_folder: str = "", where: dict | None = None,
+                    tags: list[str] | None = None, sort: str = "",
+                    fields: list[str] | None = None, limit: int = 20,
+                    descending: bool = False, vault: str = "") -> str:
+        """Combined query against in-memory index. Filter by folder, frontmatter, tags. Sort and limit."""
+        return tools.vault_query(
+            registry, from_folder, where, tags, sort, fields, limit, descending, vault
+        )
+
     # --- Links ---
 
     @mcp.tool()

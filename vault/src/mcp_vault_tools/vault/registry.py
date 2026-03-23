@@ -10,6 +10,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .index import VaultIndex
 
 
 @dataclass
@@ -99,6 +103,17 @@ class VaultRegistry:
     def list_vaults(self) -> list[VaultConfig]:
         """List all configured vaults."""
         return list(self._vaults.values())
+
+    def get_index(self, vault_name: str = "") -> "VaultIndex":
+        """Get or create a VaultIndex for a vault. Lazy initialization."""
+        from .index import VaultIndex
+        name = vault_name or self._default
+        vc = self._vaults.get(name)
+        if not vc:
+            raise ValueError(f"Unknown vault '{name}'")
+        if not hasattr(vc, "_index") or vc._index is None:
+            vc._index = VaultIndex(vc.path)
+        return vc._index
 
     @property
     def default_name(self) -> str:

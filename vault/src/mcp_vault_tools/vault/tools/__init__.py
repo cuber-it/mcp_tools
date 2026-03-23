@@ -17,6 +17,7 @@ from .crud import (
 )
 from .search import (
     vault_find,
+    vault_query,
     vault_search,
     vault_search_frontmatter,
     vault_search_tag,
@@ -91,7 +92,7 @@ __all__ = [
     "vault_read", "vault_write", "vault_create", "vault_append", "vault_prepend",
     "vault_delete", "vault_list", "vault_exists", "vault_headings",
     # Search
-    "vault_search", "vault_search_tag", "vault_search_frontmatter", "vault_find",
+    "vault_search", "vault_search_tag", "vault_search_frontmatter", "vault_find", "vault_query",
     # Links
     "vault_links", "vault_backlinks", "vault_related", "vault_orphans",
     # Frontmatter & Tags
