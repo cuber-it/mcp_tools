@@ -1,36 +1,36 @@
-        # mcp-playwright-tools
+# mcp-playwright-tools
 
-        Playwright browser automation tools for MCP — navigation, interaction, content extraction, and semantic locators
+Playwright browser automation tools for MCP — navigation, interaction, content extraction, and semantic locators
 
-        Built on [mcp-server-framework](https://pypi.org/project/mcp-server-framework/).
+Built on [mcp-server-framework](https://pypi.org/project/mcp-server-framework/).
 
-        ## Installation
+## Installation
 
-        ```bash
-        pip install mcp-playwright-tools
-        ```
+```bash
+pip install mcp-playwright-tools
+```
 
-        ## Usage
+## Usage
 
-        ```bash
-        mcp-playwright-tools    # stdio (default)
-        ```
+```bash
+mcp-playwright-tools    # stdio (default)
+```
 
-        ### Claude Code / Claude Desktop
+### Claude Code / Claude Desktop
 
-        ```json
-        {
-          "mcpServers": {
-            "playwright": { "command": "mcp-playwright-tools" }
-          }
-        }
-        ```
+```json
+{
+  "mcpServers": {
+    "playwright": { "command": "mcp-playwright-tools" }
+  }
+}
+```
 
-        ## Tools
+## Tools
 
-        | Tool | Description |
-        |------|-------------|
-        | `navigate` | Navigate to a URL and wait for page load |
+| Tool | Description |
+|------|-------------|
+| `navigate` | Navigate to a URL and wait for page load |
 | `current_url` | Get the current page URL |
 | `go_back` | Navigate back in browser history |
 | `go_forward` | Navigate forward in browser history |
@@ -72,6 +72,6 @@
 | `describe_element` | Get ARIA role, text, and attributes of an element |
 | `find_interactive_elements` | List all clickable and fillable elements on the page |
 
-        ## License
+## License
 
-        MIT — Part of [mcp_tools](https://github.com/cuber-it/mcp_tools)
+MIT — Part of [mcp_tools](https://github.com/cuber-it/mcp_tools)
